@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aymira's Optix | Gözlük Dünyası</title>
+    <style>
+        /* Genel Stil Ayarları */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f0f5f9; /* Çok açık mavi */
+            color: #333;
+        }
+
+        /* Üst Menü (Header) */
+        header {
+            background-color: #ffffff;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #0056b3; /* Mavi çizgi */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0056b3;
+            text-transform: uppercase;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 40px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #0056b3;
+            border-radius: 25px;
+            outline: none;
+        }
+
+        .user-actions a {
+            text-decoration: none;
+            color: #0056b3;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        /* Kahraman Bölümü (Hero Section) */
+        .hero {
+            background: linear-gradient(rgba(0,86,179,0.1), rgba(0,86,179,0.1)), 
+                        url('https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=1200');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            background: rgba(0, 86, 179, 0.8);
+            padding: 20px 40px;
+            border-radius: 10px;
+        }
+
+        /* Ürün Izgarası (Grid) */
+        .container {
+            padding: 40px 5%;
+        }
+
+        .section-title {
+            color: #0056b3;
+            border-left: 5px solid #0056b3;
+            padding-left: 15px;
+            margin-bottom: 30px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .price {
+            color: #0056b3;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Alt Bilgi (Footer) */
+        footer {
+            background-color: #001f3f;
+            color: white;
+            padding: 40px 5%;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-name">Aymira Optix</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Gözlük ara... (Örn: Güneş Gözlüğü)">
+        </div>
+        <div class="user-actions">
+            <a href="#">Giriş Yap</a>
+            <a href="#">Kayıt Ol</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Yeni Sezon Koleksiyonu</h1>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Popüler Modellerimiz</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1511499767350-a15923f55973?q=80&w=500" alt="Gözlük">
+                <div class="product-info">
+                    <h3>Ray-Ban Klasik</h3>
+                    <p>Mavi Işık Korumalı</p>
+                    <p class="price">1.250 TL</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1508296695146-257a814070b4?q=80&w=500" alt="Gözlük">
+                <div class="product-info">
+                    <h3>Oakley Sport</h3>
+                    <p>Polarize Güneş Gözlüğü</p>
+                    <p class="price">2.100 TL</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=500" alt="Gözlük">
+                <div class="product-info">
+                    <h3>Vintage Yuvarlak</h3>
+                    <p>Retro Tasarım</p>
+                    <p class="price">850 TL</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>İletişim</h3>
+                <p>📍 İstanbul, Türkiye</p>
+                <p>📧 Email: aymira@optix.com</p>
+                <p>📞 Tel: +90 555 123 45 67</p>
+            </div>
+            <div class="brands">
+                <h3>Markalarımız</h3>
+                <p>Ray-Ban, Oakley, Gucci, Prada, Vogue</p>
+            </div>
+        </div>
+        <center><p>© 2026 Aymira Tarakçı tarafından tasarlanmıştır.</p></center>
+    </footer>
+
+</body>
+</html>

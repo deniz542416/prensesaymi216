@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendyol | Full Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ty-orange: #f27a1a;
+            --ty-bg: #f5f5f5;
+            --ty-text-main: #333;
+            --ty-text-gray: #666;
+            --ty-border: #e6e6e6;
+            --ty-green: #0bc15c;
+            --ty-yellow: #ffb000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', Arial, sans-serif; }
+        body { background-color: #fff; color: var(--ty-text-main); line-height: 1.5; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- HEADER --- */
+        header { position: sticky; top: 0; background: #fff; z-index: 1000; border-bottom: 1px solid var(--ty-border); }
+        .top-nav { display: flex; justify-content: flex-end; padding: 8px 10%; gap: 15px; font-size: 12px; color: #999; }
+        
+        .header-main { display: flex; align-items: center; justify-content: space-between; padding: 10px 10% 15px; gap: 30px; }
+        .logo { font-size: 40px; font-weight: 800; letter-spacing: -2px; color: #000; }
+        
+        .search-area { flex: 1; position: relative; max-width: 600px; }
+        .search-area input { width: 100%; padding: 12px 15px; background: #f3f3f3; border: 2px solid transparent; border-radius: 6px; outline: none; }
+        .search-area i { position: absolute; right: 15px; top: 13px; color: var(--ty-orange); }
+
+        .user-menu { display: flex; gap: 20px; font-size: 13px; font-weight: 700; }
+        .menu-item { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+
+        .categories { display: flex; justify-content: center; gap: 20px; padding: 10px 10%; border-bottom: 1px solid var(--ty-border); font-size: 13px; font-weight: bold; }
+        .new-badge { background: var(--ty-orange); color: #fff; font-size: 9px; padding: 1px 4px; border-radius: 10px; margin-left: 4px; }
+
+        /* --- STORIES --- */
+        .stories { display: flex; justify-content: center; gap: 20px; padding: 25px 10%; overflow-x: auto; }
+        .story-item { text-align: center; min-width: 85px; cursor: pointer; }
+        .circle { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #eee; padding: 3px; margin: 0 auto 8px; }
+        .circle img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .story-item p { font-size: 12px; font-weight: 600; }
+
+        /* --- PRODUCT GRID --- */
+        .section-container { background: var(--ty-bg); padding: 30px 10%; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+        .p-card { background: #fff; border-radius: 8px; border: 1px solid #fff; transition: 0.3s; position: relative; cursor: pointer; }
+        .p-card:hover { border-color: var(--ty-orange); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .p-img { height: 280px; padding: 10px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .p-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .best-seller-tag { position: absolute; bottom: 0; left: 0; right: 0; background: var(--ty-yellow); color: #fff; font-size: 11px; font-weight: bold; text-align: center; padding: 4px; }
+        
+        .p-info { padding: 12px; }
+        .p-brand { font-weight: 700; }
+        .p-price { color: var(--ty-orange); font-size: 18px; font-weight: bold; margin: 5px 0; }
+        .p-meta { font-size: 11px; color: var(--ty-text-gray); margin-top: 4px; }
+        .hizli-teslimat { color: var(--ty-green); font-weight: bold; }
+
+        /* --- SEO & MARKA LİNKLERİ (Alt Kısım) --- */
+        .interest-section { padding: 40px 10%; background: #fff; }
+        .tag-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .tag-btn { border: 1px solid #e2e2e2; padding: 8px 18px; border-radius: 20px; font-size: 14px; cursor: pointer; }
+
+        .seo-content { padding: 40px 10%; font-size: 13px; color: #555; border-top: 1px solid var(--ty-border); }
+        .seo-content h3 { color: #333; margin: 15px 0 10px; }
+
+        .links-grid-section { background: #f9f9f9; padding: 40px 10%; border-top: 1px solid var(--ty-border); }
+        .links-wrapper { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+        .link-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 15px; }
+        .link-list a { font-size: 13px; color: #666; }
+
+        /* --- FOOTER --- */
+        footer { background: #f9f9f9; padding: 40px 10%; border-top: 1px solid var(--ty-border); }
+        .footer-cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+        .footer-cols h5 { margin-bottom: 15px; font-size: 15px; }
+        .footer-cols a { display: block; font-size: 13px; color: #666; margin-bottom: 8px; }
+
+        .bottom-bar { background: #1b1b1b; color: #fff; padding: 25px 10%; }
+        .bottom-content { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 20px; }
+        .social-icons i { font-size: 20px; margin-right: 15px; }
+        .app-links img { height: 32px; margin-left: 10px; }
+        .copyright { font-size: 12px; color: #999; margin-top: 20px; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="top-nav">
+            <span>İndirim Kuponlarım</span><span>Trendyol'da Satış Yap</span><span>Yardım & Destek</span>
+        </div>
+        <div class="header-main">
+            <a href="#" class="logo">trendyol</a>
+            <div class="search-area">
+                <input type="text" placeholder="Ürün, kategori veya marka ara">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="user-menu">
+                <div class="menu-item"><i class="fa-regular fa-user"></i> Giriş Yap</div>
+                <div class="menu-item"><i class="fa-regular fa-heart"></i> Favorilerim</div>
+                <div class="menu-item"><i class="fa-solid fa-cart-shopping"></i> Sepetim</div>
+            </div>
+        </div>
+        <div class="categories">
+            <span class="cat-item">Kategoriler <span class="new-badge">Yeni</span></span>
+            <span class="cat-item">Kadın</span><span class="cat-item">Erkek</span><span class="cat-item">Elektronik</span>
+        </div>
+    </header>
+
+    <div class="stories">
+        <div class="story-item"><div class="circle" style="background:#fdf2f2;"><img src="https://picsum.photos/100/100?1"></div><p>Fiyatı Düşenler</p></div>
+        <div class="story-item"><div class="circle"><img src="https://picsum.photos/100/100?2"></div><p>Yemek</p></div>
+        <div class="story-item"><div class="circle" style="background:#ff4d00;"><img src="https://picsum.photos/100/100?3"></div><p>Sanat</p></div>
+    </div>
+
+    <main class="section-container">
+        <div class="product-grid">
+            <div class="p-card">
+                <div class="p-img">
+                    <img src="https://cdn.dsmcdn.com/ty1336/product/media/images/prod/PIM/20240523/14/8390748b-3e81-3720-9669-07f0f4a8677c/1_org_zoom.jpg">
+                    <div class="best-seller-tag">En Çok Satan 1. Ürün</div>
+                </div>
+                <div class="p-info">
+                    <span class="p-brand">MOMORDİCA</span>
+                    <p class="p-title">Coconut Mix - 250 ml Hindistan Cevizi</p>
+                    <div class="p-price">289,90 TL</div>
+                    <div class="p-meta"><span class="hizli-teslimat">⚡ Hızlı Teslimat</span></div>
+                    <div class="p-meta">🧡 227k kişi favoriledi!</div>
+                </div>
+            </div>
+            <div class="p-card">
+                <div class="p-img">
+                    <img src="https://cdn.dsmcdn.com/ty1113/product/media/images/prod/PIM/20231228/13/2f4f2c8d-304b-3b3d-8e6d-7f7d1d2b8b9a/1_org_zoom.jpg">
+                </div>
+                <div class="p-info">
+                    <span class="p-brand">JEONJU</span>
+                    <p class="p-title">Pirinç Mayası Leke Karşıtı Serum</p>
+                    <div class="p-price">419,00 TL</div>
+                    <div class="p-meta">👁️ 24 saatte 20k kişi inceledi!</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="interest-section">
+        <h3>Bunlar da İlginizi Çekebilir</h3>
+        <div class="tag-container">
+            <span class="tag-btn">iPhone 17</span><span class="tag-btn">Playstation 5</span><span class="tag-btn">Nike Air Force</span><span class="tag-btn">Dyson Airwrap</span>
+        </div>
+    </section>
+
+    <article class="seo-content">
+        <h3>Tüm İhtiyaçlarınız İçin Tek İhtiyacınız Trendyol!</h3>
+        <p>Türkiye'nin lider online alışveriş platformu olarak milyonlarca ürünü kapınıza getiriyoruz. Moda, elektronik, ev yaşam ve süpermarket kategorilerinde en iyi fiyat garantisi...</p>
+    </article>
+
+    <section class="links-grid-section">
+        <div class="links-wrapper">
+            <div class="link-col">
+                <h4>Popüler Markalar</h4>
+                <div class="link-list"><a href="#">Apple</a><a href="#">Samsung</a><a href="#">Nike</a><a href="#">Adidas</a><a href="#">Mavi</a><a href="#">Penti</a></div>
+            </div>
+            <div class="link-col">
+                <h4>Popüler Sayfalar</h4>
+                <div class="link-list"><a href="#">Robot Süpürge</a><a href="#">Laptop</a><a href="#">Güneş Kremi</a><a href="#">Sırt Çantası</a></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-cols">
+            <div class="footer-col"><h5>Trendyol</h5><a href="#">Biz Kimiz</a><a href="#">Kariyer</a></div>
+            <div class="footer-col"><h5>Yardım</h5><a href="#">Canlı Yardım</a><a href="#">İade Koşulları</a></div>
+            <div class="footer-col"><h5>Güvenli Alışveriş</h5><i class="fa-brands fa-cc-visa fa-2x"></i></div>
+        </div>
+    </footer>
+
+    <div class="bottom-bar">
+        <div class="bottom-content">
+            <div class="social-icons"><i class="fa-brands fa-instagram"></i><i class="fa-brands fa-facebook"></i><i class="fa-brands fa-twitter"></i></div>
+            <div class="app-links">
+                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg">
+            </div>
+        </div>
+        <div class="copyright">
+            <span>©2026 DSM Grup Danışmanlık A.Ş. Tüm Hakları Saklıdır.</span>
+            <div><a href="#">Çerez Tercihleri</a> | <a href="#">Kullanım Koşulları</a></div>
+        </div>
+    </div>
+
+</body>
+</html>

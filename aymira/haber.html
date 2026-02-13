@@ -1,0 +1,2330 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Aymira Mega Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* ===================== ROOT ===================== */
+:root{
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --primary:#38bdf8;
+  --accent:#f59e0b;
+  --danger:#ef4444;
+  --success:#22c55e;
+  --border:#1f2933;
+  --radius:16px;
+  --shadow:0 10px 30px rgba(0,0,0,.4);
+}
+body.light{
+  --bg:#f4f6fa;
+  --card:#fff;
+  --text:#111827;
+  --muted:#6b7280;
+  --primary:#2563eb;
+  --accent:#f97316;
+  --danger:#dc2626;
+  --success:#16a34a;
+  --border:#e5e7eb;
+  --shadow:0 10px 30px rgba(0,0,0,.1);
+}
+*{box-sizing:border-box;font-family:Inter,Arial,Helvetica,sans-serif;}
+body{
+  margin:0;
+  background:linear-gradient(135deg,#020617,#020617 30%,#020617);
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer}
+
+/* ===================== HEADER ===================== */
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(2,6,23,.8);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+}
+.logo{
+  font-weight:900;
+  font-size:20px;
+  letter-spacing:.5px;
+  background:linear-gradient(90deg,#38bdf8,#f59e0b);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.nav-btn{
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  transition:.2s;
+}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.nav-btn.primary{
+  background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+  border:none;
+  color:#000;
+  font-weight:700;
+}
+.spacer{flex:1}
+header input{
+  min-width:140px;
+  flex:1;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+}
+
+/* ===================== LAYOUT ===================== */
+.container{
+  max-width:1300px;
+  margin:auto;
+  padding:16px;
+}
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:20px 0 10px;
+}
+.section-title h2{
+  margin:0;
+  font-size:22px;
+}
+.badge{
+  font-size:12px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#f59e0b,#fb923c);
+  color:#000;
+  font-weight:700;
+}
+
+/* ===================== TABS ===================== */
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+}
+.tab-btn{
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  font-size:13px;
+}
+.tab-btn.active{
+  background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+  color:#000;
+  border:none;
+  font-weight:700;
+}
+
+/* ===================== GRID ===================== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:16px;
+}
+
+/* ===================== CARD ===================== */
+.card{
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  transition:.25s;
+  position:relative;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.01);
+  box-shadow:0 20px 40px rgba(0,0,0,.5);
+}
+.card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+}
+.card-body{
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex:1;
+}
+.card .tag{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#000;
+  font-size:11px;
+  font-weight:800;
+  padding:4px 10px;
+  border-radius:999px;
+}
+.card .tag.breaking{
+  background:linear-gradient(135deg,#ef4444,#f97316);
+}
+.card-title{
+  font-weight:800;
+  font-size:15px;
+}
+.card-desc{
+  font-size:13px;
+  color:var(--muted);
+}
+.card-footer{
+  display:flex;
+  gap:8px;
+  margin-top:auto;
+}
+.card-footer button{
+  flex:1;
+  padding:8px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  font-size:13px;
+  transition:.2s;
+}
+.card-footer button:hover{transform:translateY(-2px)}
+.card-footer .primary{
+  background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+  color:#000;
+  border:none;
+  font-weight:700;
+}
+
+/* ===================== GAME CARD ===================== */
+.game-card{
+  background:linear-gradient(160deg,#020617,#020617 40%,#020617);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  transition:.25s;
+  position:relative;
+}
+.game-card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 30px 60px rgba(0,0,0,.6);
+}
+.game-card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  filter:contrast(1.1) saturate(1.1);
+}
+.game-card .overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.8));
+}
+.game-body{
+  position:relative;
+  z-index:2;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex:1;
+}
+.game-title{
+  font-weight:900;
+  font-size:16px;
+  letter-spacing:.3px;
+}
+.game-meta{
+  font-size:12px;
+  color:#cbd5f5;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.game-meta span{
+  background:rgba(255,255,255,.08);
+  padding:3px 8px;
+  border-radius:999px;
+}
+.game-footer{
+  margin-top:auto;
+  display:flex;
+  gap:8px;
+}
+.game-footer button{
+  flex:1;
+  padding:10px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#000;
+  font-weight:900;
+  letter-spacing:.4px;
+  transition:.2s;
+}
+.game-footer button.secondary{
+  background:rgba(255,255,255,.1);
+  color:#fff;
+}
+.game-footer button:hover{transform:translateY(-2px)}
+
+/* ===================== MODAL ===================== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(6px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+.modal.active{display:flex}
+.modal-box{
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:16px;
+  width:95%;
+  max-width:520px;
+  max-height:90vh;
+  overflow:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);
+}
+.modal-box.wide{max-width:900px}
+.close{
+  float:right;
+  border:none;
+  background:none;
+  color:var(--text);
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* ===================== FORMS ===================== */
+input,select,textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.05);
+  color:var(--text);
+  outline:none;
+}
+textarea{border-radius:14px;resize:vertical}
+.form-group{margin-bottom:10px}
+label{font-size:12px;color:var(--muted)}
+
+/* ===================== LIST ===================== */
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.list-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:10px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+}
+
+/* ===================== TOAST ===================== */
+.toast{
+  position:fixed;
+  top:16px;
+  right:16px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#000;
+  padding:10px 14px;
+  border-radius:999px;
+  font-weight:800;
+  box-shadow:var(--shadow);
+  display:none;
+  z-index:3000;
+}
+
+/* ===================== SCOREBOARD ===================== */
+.scoreboard{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:6px;
+  font-size:13px;
+}
+.scoreboard div{
+  padding:6px 8px;
+  border-radius:8px;
+  background:rgba(255,255,255,.05);
+}
+
+/* ===================== GAME AREA ===================== */
+.game-area{
+  background:radial-gradient(circle at top,#020617,#020617 60%);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:12px;
+  box-shadow:var(--shadow);
+}
+.game-header{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+.game-header .info{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.game-header .info span{
+  background:rgba(255,255,255,.08);
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+}
+.game-controls{
+  background:rgba(255,255,255,.05);
+  border:1px dashed var(--border);
+  border-radius:14px;
+  padding:10px;
+  margin-bottom:10px;
+  font-size:13px;
+}
+canvas{
+  background:#020617;
+  border-radius:16px;
+  border:1px solid var(--border);
+  display:block;
+  margin:auto;
+}
+
+/* ===================== FOOTER ===================== */
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:700px){
+  .card img,.game-card img{height:130px}
+  .logo{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ Aymira Mega Portal</div>
+  <button class="nav-btn" onclick="showTab('news')">📰 Haber</button>
+  <button class="nav-btn" onclick="showTab('shop')">🛒 Mağaza</button>
+  <button class="nav-btn primary" onclick="showTab('games')">🎮 Oyunlar</button>
+  <div class="spacer"></div>
+  <input id="searchInput" placeholder="Ara...">
+  <button class="nav-btn" onclick="openModal('loginModal')">👤 Giriş</button>
+  <button class="nav-btn" onclick="toggleTheme()">🌙</button>
+  <button class="nav-btn" onclick="openModal('cartModal')">🛒 <span id="cartCount">0</span></button>
+  <button class="nav-btn" onclick="openModal('adminLoginModal')">🔐 Admin</button>
+</header>
+
+<div class="container">
+
+  <!-- ===================== NEWS ===================== -->
+  <div id="tab-news" class="tab-section">
+    <div class="section-title">
+      <h2>📰 Güncel Haberler</h2>
+      <span class="badge">Canlı</span>
+    </div>
+    <div class="tabs" id="newsCategoryBar"></div>
+    <div class="grid" id="newsGrid"></div>
+  </div>
+
+  <!-- ===================== SHOP ===================== -->
+  <div id="tab-shop" class="tab-section" style="display:none">
+    <div class="section-title">
+      <h2>🛒 Mega Mağaza</h2>
+      <span class="badge">Yeni</span>
+    </div>
+    <div class="tabs" id="shopCategoryBar"></div>
+    <div class="grid" id="shopGrid"></div>
+  </div>
+
+  <!-- ===================== GAMES ===================== -->
+  <div id="tab-games" class="tab-section" style="display:none">
+    <div class="section-title">
+      <h2>🎮 Oyun Merkezi</h2>
+      <span class="badge">Arcade</span>
+    </div>
+    <div class="tabs" id="gameCategoryBar"></div>
+    <div class="grid" id="gamesGrid"></div>
+  </div>
+
+</div>
+
+<footer>© 2026 Aymira Mega Portal — Haber • Alışveriş • Oyun</footer>
+
+<!-- ===================== TOAST ===================== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===================== LOGIN ===================== -->
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('loginModal')">✖</button>
+    <h2>👤 Giriş / Kayıt</h2>
+    <div class="form-group">
+      <label>Kullanıcı Adı</label>
+      <input id="userName" placeholder="oyuncu1">
+    </div>
+    <div class="form-group">
+      <label>Şifre</label>
+      <input id="userPass" type="password" placeholder="••••">
+    </div>
+    <button class="nav-btn primary" style="width:100%" onclick="login()">Giriş Yap</button>
+    <p style="font-size:12px;color:var(--muted)">Hesabın yoksa otomatik kayıt olur.</p>
+  </div>
+</div>
+
+<!-- ===================== CART ===================== -->
+<div class="modal" id="cartModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('cartModal')">✖</button>
+    <h2>🛒 Sepet</h2>
+    <div class="list" id="cartList"></div>
+    <hr>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong>Toplam:</strong>
+      <strong><span id="cartTotal">0</span> TL</strong>
+    </div>
+    <button class="nav-btn primary" style="width:100%;margin-top:10px" onclick="checkout()">Ödeme Yap</button>
+  </div>
+</div>
+
+<!-- ===================== ADMIN LOGIN ===================== -->
+<div class="modal" id="adminLoginModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal('adminLoginModal')">✖</button>
+    <h2>🔐 Admin Girişi</h2>
+    <div class="form-group">
+      <label>Admin Şifresi</label>
+      <input id="adminPassInput" type="password" placeholder="••••">
+    </div>
+    <button class="nav-btn primary" style="width:100%" onclick="adminLogin()">Giriş</button>
+    <p style="font-size:12px;color:var(--muted)">Varsayılan: <b>2013</b></p>
+  </div>
+</div>
+
+<!-- ===================== ADMIN PANEL ===================== -->
+<div class="modal" id="adminPanel">
+  <div class="modal-box wide">
+    <button class="close" onclick="closeModal('adminPanel')">✖</button>
+    <h2>🛠 Admin Panel</h2>
+
+    <h3>➕ Haber Ekle</h3>
+    <div class="form-group">
+      <input id="newsTitle" placeholder="Başlık">
+    </div>
+    <div class="form-group">
+      <textarea id="newsDesc" placeholder="Açıklama"></textarea>
+    </div>
+    <div class="form-group">
+      <input id="newsImg" placeholder="Resim URL">
+    </div>
+    <div class="form-group">
+      <input id="newsPrice" type="number" placeholder="Fiyat (TL)">
+    </div>
+    <div class="form-group">
+      <input id="newsCategory" placeholder="Kategori (Spor, Teknoloji...)">
+    </div>
+    <div class="form-group">
+      <label><input type="checkbox" id="newsBreaking"> Son Dakika</label>
+    </div>
+    <button class="nav-btn primary" style="width:100%" onclick="addNews()">Haber Ekle</button>
+
+    <hr>
+
+    <h3>🛒 Ürün Ekle</h3>
+    <div class="form-group">
+      <input id="shopTitle" placeholder="Ürün adı">
+    </div>
+    <div class="form-group">
+      <textarea id="shopDesc" placeholder="Açıklama"></textarea>
+    </div>
+    <div class="form-group">
+      <input id="shopImg" placeholder="Resim URL">
+    </div>
+    <div class="form-group">
+      <input id="shopPrice" type="number" placeholder="Fiyat (TL)">
+    </div>
+    <div class="form-group">
+      <input id="shopCategory" placeholder="Kategori (Oyun, Kitap...)">
+    </div>
+    <button class="nav-btn primary" style="width:100%" onclick="addProduct()">Ürün Ekle</button>
+
+    <hr>
+
+    <h3>🗂 Haber Yönetimi</h3>
+    <div class="list" id="adminNewsList"></div>
+
+    <hr>
+
+    <h3>🗂 Ürün Yönetimi</h3>
+    <div class="list" id="adminShopList"></div>
+
+    <hr>
+
+    <h3>🔑 Admin Şifre Değiştir</h3>
+    <div class="form-group">
+      <input id="oldAdminPass" type="password" placeholder="Eski şifre">
+    </div>
+    <div class="form-group">
+      <input id="newAdminPass" type="password" placeholder="Yeni şifre">
+    </div>
+    <button class="nav-btn" style="width:100%" onclick="changeAdminPass()">Şifre Değiştir</button>
+  </div>
+</div>
+
+<!-- ===================== GAME MODAL ===================== -->
+<div class="modal" id="gameModal">
+  <div class="modal-box wide">
+    <button class="close" onclick="closeGame()">✖</button>
+    <div id="gameModalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================
+   STORAGE KEYS
+========================================================== */
+const LS={
+  news:"aymira_news",
+  shop:"aymira_shop",
+  cart:"aymira_cart",
+  users:"aymira_users",
+  session:"aymira_session",
+  adminPass:"aymira_admin_pass",
+  theme:"aymira_theme",
+  scores:"aymira_scores"
+};
+
+/* ==========================================================
+   INIT STORAGE
+========================================================== */
+if(!localStorage.getItem(LS.adminPass)){
+  localStorage.setItem(LS.adminPass,"2013");
+}
+
+/* ==========================================================
+   GLOBAL STATE
+========================================================== */
+let news=JSON.parse(localStorage.getItem(LS.news))||[];
+let shop=JSON.parse(localStorage.getItem(LS.shop))||[];
+let cart=JSON.parse(localStorage.getItem(LS.cart))||[];
+let users=JSON.parse(localStorage.getItem(LS.users))||{};
+let session=JSON.parse(localStorage.getItem(LS.session))||null;
+let scores=JSON.parse(localStorage.getItem(LS.scores))||{};
+let adminLogged=false;
+
+let activeNewsCategory="Tümü";
+let activeShopCategory="Tümü";
+let activeGameCategory="Tümü";
+
+/* ==========================================================
+   THEME
+========================================================== */
+if(localStorage.getItem(LS.theme)==="light"){
+  document.body.classList.add("light");
+}
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  localStorage.setItem(LS.theme,
+    document.body.classList.contains("light")?"light":"dark"
+  );
+}
+
+/* ==========================================================
+   TABS
+========================================================== */
+function showTab(name){
+  document.querySelectorAll(".tab-section").forEach(s=>s.style.display="none");
+  document.getElementById("tab-"+name).style.display="block";
+}
+
+/* ==========================================================
+   MODAL
+========================================================== */
+function openModal(id){document.getElementById(id).classList.add("active");}
+function closeModal(id){document.getElementById(id).classList.remove("active");}
+
+/* ==========================================================
+   TOAST
+========================================================== */
+function toast(msg,type="success"){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.style.background=type==="error"?
+    "linear-gradient(135deg,#ef4444,#dc2626)":
+    "linear-gradient(135deg,#22c55e,#16a34a)";
+  t.style.display="block";
+  setTimeout(()=>t.style.display="none",2200);
+}
+
+/* ==========================================================
+   LOGIN / REGISTER
+========================================================== */
+function login(){
+  const u=document.getElementById("userName").value.trim();
+  const p=document.getElementById("userPass").value.trim();
+  if(!u||!p){toast("Bilgileri gir","error");return;}
+  if(!users[u]){
+    users[u]={pass:p,created:Date.now()};
+    toast("Kayıt olundu 🎉");
+  }else if(users[u].pass!==p){
+    toast("Şifre yanlış ❌","error");return;
+  }else{
+    toast("Giriş başarılı ✅");
+  }
+  session={user:u};
+  localStorage.setItem(LS.users,JSON.stringify(users));
+  localStorage.setItem(LS.session,JSON.stringify(session));
+  closeModal("loginModal");
+}
+
+/* ==========================================================
+   ADMIN
+========================================================== */
+function adminLogin(){
+  const pass=document.getElementById("adminPassInput").value;
+  if(pass===localStorage.getItem(LS.adminPass)){
+    adminLogged=true;
+    closeModal("adminLoginModal");
+    openModal("adminPanel");
+    renderAdminNews();
+    renderAdminShop();
+    toast("Admin girişi başarılı 🔓");
+  }else{
+    toast("Şifre yanlış ❌","error");
+  }
+}
+function changeAdminPass(){
+  const oldP=document.getElementById("oldAdminPass").value;
+  const newP=document.getElementById("newAdminPass").value;
+  if(oldP!==localStorage.getItem(LS.adminPass)){
+    toast("Eski şifre yanlış","error");return;
+  }
+  if(!newP){toast("Yeni şifre gir","error");return;}
+  localStorage.setItem(LS.adminPass,newP);
+  toast("Şifre değiştirildi 🔑");
+  document.getElementById("oldAdminPass").value="";
+  document.getElementById("newAdminPass").value="";
+}
+
+/* ==========================================================
+   CART (BUG FIXED)
+========================================================== */
+function addToCart(id){
+  const item=cart.find(x=>x.id===id);
+  if(item)item.qty++;
+  else cart.push({id,qty:1});
+  localStorage.setItem(LS.cart,JSON.stringify(cart));
+  updateCartCount();
+  toast("Sepete eklendi 🛒");
+}
+function updateCartCount(){
+  document.getElementById("cartCount").textContent=
+    cart.reduce((a,b)=>a+b.qty,0);
+}
+function renderCart(){
+  const box=document.getElementById("cartList");
+  box.innerHTML="";
+  let total=0;
+  if(cart.length===0){
+    box.innerHTML="<small>Sepet boş</small>";
+  }
+  cart.forEach(c=>{
+    const p=shop.find(x=>x.id===c.id)||news.find(x=>x.id===c.id);
+    if(!p)return;
+    const price=p.price*c.qty;
+    total+=price;
+    const div=document.createElement("div");
+    div.className="list-item";
+    div.innerHTML=`
+      <div>
+        <strong>${p.title}</strong><br>
+        <small>${c.qty} x ${p.price} TL</small>
+      </div>
+      <div>
+        <button onclick="decCart(${c.id})">-</button>
+        <button onclick="incCart(${c.id})">+</button>
+        <button onclick="removeCart(${c.id})">🗑</button>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+  document.getElementById("cartTotal").textContent=total;
+}
+function incCart(id){
+  const i=cart.find(x=>x.id===id);
+  if(i)i.qty++;
+  saveCart();
+}
+function decCart(id){
+  const i=cart.find(x=>x.id===id);
+  if(!i)return;
+  i.qty--;
+  if(i.qty<=0)cart=cart.filter(x=>x.id!==id);
+  saveCart();
+}
+function removeCart(id){
+  cart=cart.filter(x=>x.id!==id);
+  saveCart();
+}
+function saveCart(){
+  localStorage.setItem(LS.cart,JSON.stringify(cart));
+  updateCartCount();
+  renderCart();
+}
+function checkout(){
+  if(cart.length===0){toast("Sepet boş","error");return;}
+  toast("Ödeme simülasyonu başarılı 💳");
+  cart=[];
+  saveCart();
+}
+
+/* ==========================================================
+   NEWS
+========================================================== */
+function addNews(){
+  const t=document.getElementById("newsTitle").value.trim();
+  const d=document.getElementById("newsDesc").value.trim();
+  const i=document.getElementById("newsImg").value.trim();
+  const p=parseFloat(document.getElementById("newsPrice").value)||0;
+  const c=document.getElementById("newsCategory").value.trim()||"Genel";
+  const b=document.getElementById("newsBreaking").checked;
+  if(!t||!d){toast("Başlık ve açıklama gir","error");return;}
+  const item={
+    id:Date.now(),
+    title:t,
+    desc:d,
+    img:i||"https://picsum.photos/500/300?random="+Math.random(),
+    price:p,
+    category:c,
+    breaking:b,
+    comments:[]
+  };
+  news.unshift(item);
+  saveNews();
+  toast("Haber eklendi ✅");
+  document.getElementById("newsTitle").value="";
+  document.getElementById("newsDesc").value="";
+  document.getElementById("newsImg").value="";
+  document.getElementById("newsPrice").value="";
+  document.getElementById("newsCategory").value="";
+  document.getElementById("newsBreaking").checked=false;
+}
+function deleteNews(id){
+  if(!confirm("Silinsin mi?"))return;
+  news=news.filter(n=>n.id!==id);
+  saveNews();
+  toast("Silindi 🗑");
+}
+function editNews(id){
+  const n=news.find(x=>x.id===id);
+  if(!n)return;
+  const nt=prompt("Başlık",n.title); if(nt===null)return;
+  const nd=prompt("Açıklama",n.desc); if(nd===null)return;
+  const ni=prompt("Resim URL",n.img);
+  const np=parseFloat(prompt("Fiyat",n.price))||0;
+  const nc=prompt("Kategori",n.category)||n.category;
+  const nb=confirm("Son Dakika olsun mu?");
+  n.title=nt;n.desc=nd;n.img=ni;n.price=np;n.category=nc;n.breaking=nb;
+  saveNews();
+  toast("Güncellendi ✨");
+}
+function saveNews(){
+  localStorage.setItem(LS.news,JSON.stringify(news));
+  renderNews();
+  renderAdminNews();
+}
+function renderAdminNews(){
+  const box=document.getElementById("adminNewsList");
+  box.innerHTML="";
+  news.forEach(n=>{
+    const div=document.createElement("div");
+    div.className="list-item";
+    div.innerHTML=`
+      <div>
+        <strong>${n.title}</strong><br>
+        <small>${n.category}${n.breaking?" • Son Dakika":""}</small>
+      </div>
+      <div>
+        <button onclick="editNews(${n.id})">✏</button>
+        <button onclick="deleteNews(${n.id})">🗑</button>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+}
+function renderNewsCategories(){
+  const bar=document.getElementById("newsCategoryBar");
+  const cats=["Tümü",...new Set(news.map(n=>n.category))];
+  bar.innerHTML="";
+  cats.forEach(cat=>{
+    const btn=document.createElement("button");
+    btn.className="tab-btn"+(cat===activeNewsCategory?" active":"");
+    btn.textContent=cat;
+    btn.onclick=()=>{activeNewsCategory=cat;renderNews();};
+    bar.appendChild(btn);
+  });
+}
+function renderNews(){
+  const grid=document.getElementById("newsGrid");
+  const q=document.getElementById("searchInput").value.toLowerCase();
+  grid.innerHTML="";
+  let list=[...news];
+  if(activeNewsCategory!=="Tümü"){
+    list=list.filter(n=>n.category===activeNewsCategory);
+  }
+  if(q){
+    list=list.filter(n=>
+      n.title.toLowerCase().includes(q)||
+      n.desc.toLowerCase().includes(q)
+    );
+  }
+  if(list.length===0){
+    grid.innerHTML="<p>Haber bulunamadı 😕</p>";
+    return;
+  }
+  list.forEach(n=>{
+    const div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`
+      ${n.breaking?'<span class="tag breaking">SON DAKİKA</span>':""}
+      <img src="${n.img}">
+      <div class="card-body">
+        <div class="card-title">${n.title}</div>
+        <div class="card-desc">${n.desc.slice(0,90)}...</div>
+        <small>${n.category}</small>
+        <div class="card-footer">
+          <button onclick="openNews(${n.id})">Oku</button>
+          <button class="primary" onclick="addToCart(${n.id})">${n.price} TL</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+/* ==========================================================
+   SHOP
+========================================================== */
+function addProduct(){
+  const t=document.getElementById("shopTitle").value.trim();
+  const d=document.getElementById("shopDesc").value.trim();
+  const i=document.getElementById("shopImg").value.trim();
+  const p=parseFloat(document.getElementById("shopPrice").value)||0;
+  const c=document.getElementById("shopCategory").value.trim()||"Genel";
+  if(!t||!d){toast("Ürün adı ve açıklama gir","error");return;}
+  const item={
+    id:Date.now(),
+    title:t,
+    desc:d,
+    img:i||"https://picsum.photos/500/300?random="+Math.random(),
+    price:p,
+    category:c
+  };
+  shop.unshift(item);
+  saveShop();
+  toast("Ürün eklendi ✅");
+  document.getElementById("shopTitle").value="";
+  document.getElementById("shopDesc").value="";
+  document.getElementById("shopImg").value="";
+  document.getElementById("shopPrice").value="";
+  document.getElementById("shopCategory").value="";
+}
+function deleteProduct(id){
+  if(!confirm("Silinsin mi?"))return;
+  shop=shop.filter(p=>p.id!==id);
+  saveShop();
+  toast("Silindi 🗑");
+}
+function editProduct(id){
+  const p=shop.find(x=>x.id===id);
+  if(!p)return;
+  const nt=prompt("Ürün adı",p.title); if(nt===null)return;
+  const nd=prompt("Açıklama",p.desc); if(nd===null)return;
+  const ni=prompt("Resim URL",p.img);
+  const np=parseFloat(prompt("Fiyat",p.price))||0;
+  const nc=prompt("Kategori",p.category)||p.category;
+  p.title=nt;p.desc=nd;p.img=ni;p.price=np;p.category=nc;
+  saveShop();
+  toast("Güncellendi ✨");
+}
+function saveShop(){
+  localStorage.setItem(LS.shop,JSON.stringify(shop));
+  renderShop();
+  renderAdminShop();
+}
+function renderAdminShop(){
+  const box=document.getElementById("adminShopList");
+  box.innerHTML="";
+  shop.forEach(p=>{
+    const div=document.createElement("div");
+    div.className="list-item";
+    div.innerHTML=`
+      <div>
+        <strong>${p.title}</strong><br>
+        <small>${p.category}</small>
+      </div>
+      <div>
+        <button onclick="editProduct(${p.id})">✏</button>
+        <button onclick="deleteProduct(${p.id})">🗑</button>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+}
+function renderShopCategories(){
+  const bar=document.getElementById("shopCategoryBar");
+  const cats=["Tümü",...new Set(shop.map(p=>p.category))];
+  bar.innerHTML="";
+  cats.forEach(cat=>{
+    const btn=document.createElement("button");
+    btn.className="tab-btn"+(cat===activeShopCategory?" active":"");
+    btn.textContent=cat;
+    btn.onclick=()=>{activeShopCategory=cat;renderShop();};
+    bar.appendChild(btn);
+  });
+}
+function renderShop(){
+  const grid=document.getElementById("shopGrid");
+  const q=document.getElementById("searchInput").value.toLowerCase();
+  grid.innerHTML="";
+  let list=[...shop];
+  if(activeShopCategory!=="Tümü"){
+    list=list.filter(p=>p.category===activeShopCategory);
+  }
+  if(q){
+    list=list.filter(p=>
+      p.title.toLowerCase().includes(q)||
+      p.desc.toLowerCase().includes(q)
+    );
+  }
+  if(list.length===0){
+    grid.innerHTML="<p>Ürün bulunamadı 😕</p>";
+    return;
+  }
+  list.forEach(p=>{
+    const div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`
+      <img src="${p.img}">
+      <div class="card-body">
+        <div class="card-title">${p.title}</div>
+        <div class="card-desc">${p.desc.slice(0,90)}...</div>
+        <small>${p.category}</small>
+        <div class="card-footer">
+          <button onclick="addToCart(${p.id})">Sepete Ekle</button>
+          <button class="primary">${p.price} TL</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+/* ==========================================================
+   NEWS READ MODAL
+========================================================== */
+function openNews(id){
+  const n=news.find(x=>x.id===id);
+  if(!n)return;
+  const modal=document.createElement("div");
+  modal.className="modal active";
+  modal.innerHTML=`
+    <div class="modal-box wide">
+      <button class="close" onclick="this.closest('.modal').remove()">✖</button>
+      <h2>${n.title}</h2>
+      <img src="${n.img}" style="width:100%;border-radius:16px">
+      <p>${n.desc}</p>
+      <small>Kategori: ${n.category}${n.breaking?" • Son Dakika":""}</small>
+      <hr>
+      <h3>💬 Yorumlar</h3>
+      <div id="commentsBox"></div>
+      <textarea id="commentInput" placeholder="Yorum yaz..."></textarea>
+      <button class="nav-btn primary" style="width:100%;margin-top:6px" onclick="addComment(${n.id})">Gönder</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  renderComments(n.id);
+}
+function renderComments(id){
+  const n=news.find(x=>x.id===id);
+  const box=document.getElementById("commentsBox");
+  box.innerHTML="";
+  if(!n.comments||n.comments.length===0){
+    box.innerHTML="<small>Henüz yorum yok</small>";
+    return;
+  }
+  n.comments.forEach((c,idx)=>{
+    const div=document.createElement("div");
+    div.className="list-item";
+    div.innerHTML=`
+      <div>
+        <strong>${c.user}</strong><br>
+        <small>${c.text}</small>
+      </div>
+      ${adminLogged?`<button onclick="deleteComment(${id},${idx})">🗑</button>`:""}
+    `;
+    box.appendChild(div);
+  });
+}
+function addComment(id){
+  if(!session){toast("Önce giriş yap","error");openModal("loginModal");return;}
+  const input=document.getElementById("commentInput");
+  const txt=input.value.trim();
+  if(!txt)return;
+  const n=news.find(x=>x.id===id);
+  if(!n.comments)n.comments=[];
+  n.comments.push({user:session.user,text:txt});
+  saveNews();
+  input.value="";
+  renderComments(id);
+}
+function deleteComment(nid,cidx){
+  const n=news.find(x=>x.id===nid);
+  if(!n)return;
+  n.comments.splice(cidx,1);
+  saveNews();
+  renderComments(nid);
+}
+
+/* ==========================================================
+   SEARCH
+========================================================== */
+document.getElementById("searchInput").addEventListener("input",()=>{
+  renderNews();renderShop();
+});
+
+/* ==========================================================
+   GAMES SYSTEM
+========================================================== */
+
+/*
+Oyun sistemi:
+- Her oyunun: id, title, category, gradeMin, gradeMax, difficulty, players, controls, goal, thumb, start() fonksiyonu var
+- start() çağrılınca oyun modal içinde açılıyor
+- Skorlar localStorage'da tutuluyor
+*/
+
+const games=[];
+
+/* -------------------- SCORE SYSTEM -------------------- */
+function saveScore(gameId,player,score){
+  if(!scores[gameId])scores[gameId]=[];
+  scores[gameId].push({player,score,date:Date.now()});
+  scores[gameId].sort((a,b)=>b.score-a.score);
+  scores[gameId]=scores[gameId].slice(0,50);
+  localStorage.setItem(LS.scores,JSON.stringify(scores));
+}
+function getScores(gameId){
+  return scores[gameId]||[];
+}
+
+/* -------------------- GAME MODAL -------------------- */
+function openGame(game){
+  if(!session){
+    toast("Oynamak için giriş yap","error");
+    openModal("loginModal");
+    return;
+  }
+  const content=document.getElementById("gameModalContent");
+  content.innerHTML=`
+    <div class="game-header">
+      <div>
+        <h2>🎮 ${game.title}</h2>
+        <div class="info">
+          <span>${game.category}</span>
+          <span>${game.gradeMin}-${game.gradeMax}. Sınıf</span>
+          <span>${game.players} Oyuncu</span>
+          <span>${game.difficulty}</span>
+        </div>
+      </div>
+      <div>
+        <button class="nav-btn" onclick="closeGame()">Çık</button>
+      </div>
+    </div>
+
+    <div class="game-controls">
+      <b>🎯 Amaç:</b> ${game.goal}<br>
+      <b>🎮 Kontroller:</b> ${game.controls}
+    </div>
+
+    <div id="gameArea"></div>
+
+    <hr>
+
+    <h3>🏆 Skor Tablosu (En İyi 10)</h3>
+    <div class="scoreboard" id="scoreboard"></div>
+  `;
+  openModal("gameModal");
+  renderScoreboard(game.id);
+  game.start();
+}
+function closeGame(){
+  closeModal("gameModal");
+  const area=document.getElementById("gameArea");
+  if(area)area.innerHTML="";
+}
+function renderScoreboard(gameId){
+  const box=document.getElementById("scoreboard");
+  if(!box)return;
+  const list=getScores(gameId).slice(0,10);
+  box.innerHTML="";
+  if(list.length===0){
+    box.innerHTML="<small>Henüz skor yok</small>";
+    return;
+  }
+  list.forEach((s,i)=>{
+    box.innerHTML+=`
+      <div>${i+1}. ${s.player}</div>
+      <div>${s.score}</div>
+      <div>${new Date(s.date).toLocaleDateString()}</div>
+    `;
+  });
+}
+
+/* ==========================================================
+   GAME HELPERS
+========================================================== */
+function askDifficulty(){
+  const d=prompt("Zorluk seç: kolay / orta / zor","kolay");
+  if(!d)return "kolay";
+  const x=d.toLowerCase();
+  if(x.includes("zor"))return "zor";
+  if(x.includes("orta"))return "orta";
+  return "kolay";
+}
+function askGrade(){
+  let g=parseInt(prompt("Sınıf seviyesi seç (1-12)","7"));
+  if(isNaN(g)||g<1||g>12)g=7;
+  return g;
+}
+
+/* ==========================================================
+   GAME 1: SLOW SNAKE (SEVİYELİ, YAVAŞLATILMIŞ)
+========================================================== */
+games.push({
+  id:"snake",
+  title:"Yılan Arenası",
+  category:"Refleks / Klasik",
+  gradeMin:1,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Yukarı: ↑, Aşağı: ↓, Sol: ←, Sağ: →",
+  goal:"Yemeği toplayarak yılanı uzat ve duvara çarpmadan hayatta kal.",
+  thumb:"https://images.unsplash.com/photo-1603481546579-65d935ba9cdd?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area">
+        <canvas id="snakeCanvas" width="400" height="400"></canvas>
+        <div style="text-align:center;margin-top:8px">
+          <small>Seviye: <span id="snakeLevel">1</span> | Skor: <span id="snakeScore">0</span></small>
+        </div>
+      </div>
+    `;
+
+    const canvas=document.getElementById("snakeCanvas");
+    const ctx=canvas.getContext("2d");
+
+    const diff=askDifficulty();
+    let speed=diff==="zor"?140:diff==="orta"?180:220; // YAVAŞLATILDI
+    const grade=askGrade();
+    speed=Math.max(80,speed-(grade*5)); // sınıf arttıkça biraz hızlanır
+
+    let tile=20;
+    let snake=[{x:200,y:200}];
+    let dir={x:tile,y:0};
+    let food={x:0,y:0};
+    let score=0;
+    let level=1;
+
+    function spawnFood(){
+      food.x=Math.floor(Math.random()*(canvas.width/tile))*tile;
+      food.y=Math.floor(Math.random()*(canvas.height/tile))*tile;
+    }
+    spawnFood();
+
+    function draw(){
+      ctx.fillStyle="#020617";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      // food
+      ctx.fillStyle="#22c55e";
+      ctx.fillRect(food.x,food.y,tile,tile);
+
+      // snake
+      ctx.fillStyle="#38bdf8";
+      snake.forEach(p=>ctx.fillRect(p.x,p.y,tile,tile));
+    }
+
+    function step(){
+      const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+
+      // wall collision
+      if(head.x<0||head.y<0||head.x>=canvas.width||head.y>=canvas.height||
+         snake.some(p=>p.x===head.x&&p.y===head.y)){
+        gameOver();
+        return;
+      }
+
+      snake.unshift(head);
+
+      if(head.x===food.x&&head.y===food.y){
+        score+=10;
+        if(score%50===0){
+          level++;
+          speed=Math.max(60,speed-10);
+          document.getElementById("snakeLevel").textContent=level;
+        }
+        document.getElementById("snakeScore").textContent=score;
+        spawnFood();
+      }else{
+        snake.pop();
+      }
+
+      draw();
+    }
+
+    function gameOver(){
+      clearInterval(loop);
+      alert("Oyun bitti! Skor: "+score);
+      saveScore("snake",session.user,score);
+      renderScoreboard("snake");
+    }
+
+    document.onkeydown=e=>{
+      if(e.key==="ArrowUp"&&dir.y===0)dir={x:0,y:-tile};
+      else if(e.key==="ArrowDown"&&dir.y===0)dir={x:0,y:tile};
+      else if(e.key==="ArrowLeft"&&dir.x===0)dir={x:-tile,y:0};
+      else if(e.key==="ArrowRight"&&dir.x===0)dir={x:tile,y:0};
+    };
+
+    draw();
+    const loop=setInterval(step,speed);
+  }
+});
+
+/* ==========================================================
+   GAME 2: MATH BATTLE (1-12 SINIF, ZORLUKLU)
+========================================================== */
+games.push({
+  id:"mathbattle",
+  title:"Matematik Savaşı",
+  category:"Ders / Matematik",
+  gradeMin:1,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Cevabı yaz → Enter",
+  goal:"Soruları doğru cevaplayarak düşmanı yen ve en yüksek skoru yap.",
+  thumb:"https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area" style="max-width:500px;margin:auto;text-align:center">
+        <h3>⚔ Matematik Savaşı</h3>
+        <div id="mathEnemy" style="font-size:60px">👾</div>
+        <p id="mathQuestion" style="font-size:18px;margin:10px 0"></p>
+        <input id="mathAnswer" placeholder="Cevabı yaz..." autofocus>
+        <div style="margin-top:8px">
+          <small>Can: <span id="mathLives">3</span> | Skor: <span id="mathScore">0</span></small>
+        </div>
+      </div>
+    `;
+
+    const diff=askDifficulty();
+    const grade=askGrade();
+
+    let lives=3;
+    let score=0;
+    let correct=0;
+    let currentAnswer=0;
+
+    const qEl=document.getElementById("mathQuestion");
+    const aEl=document.getElementById("mathAnswer");
+    const lEl=document.getElementById("mathLives");
+    const sEl=document.getElementById("mathScore");
+
+    function genQuestion(){
+      let a,b,op;
+      if(grade<=3){
+        a=Math.floor(Math.random()*10)+1;
+        b=Math.floor(Math.random()*10)+1;
+        op=Math.random()<0.5?"+":"-";
+      }else if(grade<=6){
+        a=Math.floor(Math.random()*20)+1;
+        b=Math.floor(Math.random()*10)+1;
+        op=["+","-","×"][Math.floor(Math.random()*3)];
+      }else if(grade<=9){
+        a=Math.floor(Math.random()*30)+1;
+        b=Math.floor(Math.random()*20)+1;
+        op=["+","-","×","÷"][Math.floor(Math.random()*4)];
+      }else{
+        a=Math.floor(Math.random()*50)+1;
+        b=Math.floor(Math.random()*30)+1;
+        op=["+","-","×","÷"][Math.floor(Math.random()*4)];
+      }
+
+      if(op==="÷"){
+        currentAnswer=Math.floor(a/b);
+        qEl.textContent=`${a*b} ÷ ${b} = ?`;
+      }else if(op==="×"){
+        currentAnswer=a*b;
+        qEl.textContent=`${a} × ${b} = ?`;
+      }else if(op==="+"){
+        currentAnswer=a+b;
+        qEl.textContent=`${a} + ${b} = ?`;
+      }else{
+        currentAnswer=a-b;
+        qEl.textContent=`${a} - ${b} = ?`;
+      }
+      aEl.value="";
+      aEl.focus();
+    }
+
+    aEl.onkeydown=e=>{
+      if(e.key==="Enter"){
+        const val=parseInt(aEl.value);
+        if(val===currentAnswer){
+          score+=10;
+          correct++;
+          sEl.textContent=score;
+          if(diff==="zor"&&correct%5===0){
+            lives++;
+            lEl.textContent=lives;
+          }
+        }else{
+          lives--;
+          lEl.textContent=lives;
+          if(lives<=0){
+            gameOver();
+            return;
+          }
+        }
+        genQuestion();
+      }
+    };
+
+    function gameOver(){
+      alert("Oyun bitti! Skor: "+score);
+      saveScore("mathbattle",session.user,score);
+      renderScoreboard("mathbattle");
+    }
+
+    genQuestion();
+  }
+});
+
+/* ==========================================================
+   GAME 3: PARKOUR RUNNER
+========================================================== */
+games.push({
+  id:"parkour",
+  title:"Parkur Koşusu",
+  category:"Parkur / Aksiyon",
+  gradeMin:1,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Zıpla: Space | Eğil: ↓",
+  goal:"Engellerden kaç ve mümkün olduğunca uzun süre hayatta kal.",
+  thumb:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area">
+        <canvas id="parkourCanvas" width="500" height="200"></canvas>
+        <div style="text-align:center;margin-top:6px">
+          <small>Skor: <span id="parkourScore">0</span></small>
+        </div>
+      </div>
+    `;
+    const canvas=document.getElementById("parkourCanvas");
+    const ctx=canvas.getContext("2d");
+
+    const diff=askDifficulty();
+    const grade=askGrade();
+    let speed=diff==="zor"?5:diff==="orta"?4:3;
+    speed+=grade*0.1;
+
+    let player={x:50,y:150,w:30,h:30,vy:0,onGround:true};
+    let obstacles=[];
+    let score=0;
+    let gravity=0.8;
+    let jumpPower=-12;
+    let gameOverFlag=false;
+
+    function spawnObstacle(){
+      obstacles.push({x:canvas.width,y:150,w:20+Math.random()*20,h:30});
+    }
+
+    document.onkeydown=e=>{
+      if(e.code==="Space"&&player.onGround){
+        player.vy=jumpPower;
+        player.onGround=false;
+      }
+      if(e.key==="ArrowDown"){
+        player.h=20;
+      }
+    };
+    document.onkeyup=e=>{
+      if(e.key==="ArrowDown"){
+        player.h=30;
+      }
+    };
+
+    function update(){
+      if(gameOverFlag)return;
+
+      // physics
+      player.vy+=gravity;
+      player.y+=player.vy;
+      if(player.y>=150){
+        player.y=150;
+        player.vy=0;
+        player.onGround=true;
+      }
+
+      // obstacles
+      if(Math.random()<0.02)spawnObstacle();
+      obstacles.forEach(o=>o.x-=speed);
+      obstacles=obstacles.filter(o=>o.x+o.w>0);
+
+      // collision
+      obstacles.forEach(o=>{
+        if(player.x<o.x+o.w&&player.x+player.w>o.x&&
+           player.y<o.y+o.h&&player.y+player.h>o.y){
+          gameOver();
+        }
+      });
+
+      score++;
+      document.getElementById("parkourScore").textContent=score;
+
+      draw();
+      requestAnimationFrame(update);
+    }
+
+    function draw(){
+      ctx.fillStyle="#020617";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      // ground
+      ctx.fillStyle="#1e293b";
+      ctx.fillRect(0,180,canvas.width,20);
+
+      // player
+      ctx.fillStyle="#38bdf8";
+      ctx.fillRect(player.x,player.y,player.w,player.h);
+
+      // obstacles
+      ctx.fillStyle="#ef4444";
+      obstacles.forEach(o=>ctx.fillRect(o.x,o.y,o.w,o.h));
+    }
+
+    function gameOver(){
+      gameOverFlag=true;
+      alert("Oyun bitti! Skor: "+score);
+      saveScore("parkour",session.user,score);
+      renderScoreboard("parkour");
+    }
+
+    update();
+  }
+});
+
+/* ==========================================================
+   GAME 4: ESCAPE MAZE
+========================================================== */
+games.push({
+  id:"maze",
+  title:"Labirentten Kaçış",
+  category:"Kaçış / Zeka",
+  gradeMin:1,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Yön tuşları: ↑ ↓ ← →",
+  goal:"Labirentten çıkışı bul ve en kısa sürede kaç.",
+  thumb:"https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area">
+        <canvas id="mazeCanvas" width="400" height="400"></canvas>
+        <div style="text-align:center;margin-top:6px">
+          <small>Hamle: <span id="mazeMoves">0</span></small>
+        </div>
+      </div>
+    `;
+    const canvas=document.getElementById("mazeCanvas");
+    const ctx=canvas.getContext("2d");
+
+    const diff=askDifficulty();
+    const grade=askGrade();
+    const size=diff==="zor"?15:diff==="orta"?12:10;
+    const tile=canvas.width/size;
+
+    let maze=[];
+    let player={x:0,y:0};
+    let exit={x:size-1,y:size-1};
+    let moves=0;
+
+    function genMaze(){
+      maze=[];
+      for(let y=0;y<size;y++){
+        const row=[];
+        for(let x=0;x<size;x++){
+          row.push(Math.random()<0.25?1:0);
+        }
+        maze.push(row);
+      }
+      maze[0][0]=0;
+      maze[exit.y][exit.x]=0;
+    }
+    genMaze();
+
+    document.onkeydown=e=>{
+      let nx=player.x,ny=player.y;
+      if(e.key==="ArrowUp")ny--;
+      if(e.key==="ArrowDown")ny++;
+      if(e.key==="ArrowLeft")nx--;
+      if(e.key==="ArrowRight")nx++;
+      if(nx>=0&&ny>=0&&nx<size&&ny<size&&maze[ny][nx]===0){
+        player.x=nx;player.y=ny;
+        moves++;
+        document.getElementById("mazeMoves").textContent=moves;
+        if(player.x===exit.x&&player.y===exit.y){
+          win();
+        }
+      }
+    };
+
+    function draw(){
+      ctx.fillStyle="#020617";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      for(let y=0;y<size;y++){
+        for(let x=0;x<size;x++){
+          if(maze[y][x]===1){
+            ctx.fillStyle="#1e293b";
+            ctx.fillRect(x*tile,y*tile,tile,tile);
+          }
+        }
+      }
+      // exit
+      ctx.fillStyle="#22c55e";
+      ctx.fillRect(exit.x*tile,exit.y*tile,tile,tile);
+      // player
+      ctx.fillStyle="#38bdf8";
+      ctx.fillRect(player.x*tile,player.y*tile,tile,tile);
+      requestAnimationFrame(draw);
+    }
+
+    function win(){
+      alert("Tebrikler! Hamle: "+moves);
+      const score=Math.max(0,1000-moves*10);
+      saveScore("maze",session.user,score);
+      renderScoreboard("maze");
+      genMaze();
+      player={x:0,y:0};
+      moves=0;
+      document.getElementById("mazeMoves").textContent=moves;
+    }
+
+    draw();
+  }
+});
+
+/* ==========================================================
+   GAME 5: SPACE BATTLE (SAVAŞ)
+========================================================== */
+games.push({
+  id:"spacebattle",
+  title:"Uzay Savaşı",
+  category:"Savaş / Shooter",
+  gradeMin:5,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Hareket: ← → | Ateş: Space",
+  goal:"Düşman gemilerini vur ve en yüksek skoru yap.",
+  thumb:"https://images.unsplash.com/photo-1580128637423-bc57c2a94c4a?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area">
+        <canvas id="spaceCanvas" width="500" height="300"></canvas>
+        <div style="text-align:center;margin-top:6px">
+          <small>Skor: <span id="spaceScore">0</span> | Can: <span id="spaceLives">3</span></small>
+        </div>
+      </div>
+    `;
+    const canvas=document.getElementById("spaceCanvas");
+    const ctx=canvas.getContext("2d");
+
+    const diff=askDifficulty();
+    const grade=askGrade();
+    let enemySpeed=diff==="zor"?3:diff==="orta"?2:1.5;
+    enemySpeed+=grade*0.1;
+
+    let player={x:canvas.width/2-15,y:260,w:30,h:30};
+    let bullets=[];
+    let enemies=[];
+    let score=0;
+    let lives=3;
+    let gameOverFlag=false;
+
+    document.onkeydown=e=>{
+      if(e.key==="ArrowLeft")player.x-=10;
+      if(e.key==="ArrowRight")player.x+=10;
+      if(e.code==="Space"){
+        bullets.push({x:player.x+player.w/2-2,y:player.y,w:4,h:10});
+      }
+    };
+
+    function spawnEnemy(){
+      enemies.push({
+        x:Math.random()*(canvas.width-30),
+        y:-30,
+        w:30,h:30
+      });
+    }
+
+    function update(){
+      if(gameOverFlag)return;
+
+      if(Math.random()<0.03)spawnEnemy();
+
+      bullets.forEach(b=>b.y-=8);
+      bullets=bullets.filter(b=>b.y+b.h>0);
+
+      enemies.forEach(e=>e.y+=enemySpeed);
+      enemies=enemies.filter(e=>e.y<canvas.height+50);
+
+      // collisions
+      enemies.forEach((e,ei)=>{
+        bullets.forEach((b,bi)=>{
+          if(b.x<e.x+e.w&&b.x+b.w>e.x&&
+             b.y<e.y+e.h&&b.y+b.h>e.y){
+            enemies.splice(ei,1);
+            bullets.splice(bi,1);
+            score+=10;
+            document.getElementById("spaceScore").textContent=score;
+          }
+        });
+        if(e.y+e.h>player.y){
+          lives--;
+          document.getElementById("spaceLives").textContent=lives;
+          enemies.splice(ei,1);
+          if(lives<=0)gameOver();
+        }
+      });
+
+      draw();
+      requestAnimationFrame(update);
+    }
+
+    function draw(){
+      ctx.fillStyle="#020617";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      // player
+      ctx.fillStyle="#38bdf8";
+      ctx.fillRect(player.x,player.y,player.w,player.h);
+
+      // bullets
+      ctx.fillStyle="#22c55e";
+      bullets.forEach(b=>ctx.fillRect(b.x,b.y,b.w,b.h));
+
+      // enemies
+      ctx.fillStyle="#ef4444";
+      enemies.forEach(e=>ctx.fillRect(e.x,e.y,e.w,e.h));
+    }
+
+    function gameOver(){
+      gameOverFlag=true;
+      alert("Oyun bitti! Skor: "+score);
+      saveScore("spacebattle",session.user,score);
+      renderScoreboard("spacebattle");
+    }
+
+    update();
+  }
+});
+
+/* ==========================================================
+   GAME 6: ENGLISH WORD CATCH
+========================================================== */
+games.push({
+  id:"wordcatch",
+  title:"Kelime Yakala",
+  category:"Ders / İngilizce",
+  gradeMin:3,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Fare ile doğru kelimeye tıkla",
+  goal:"Doğru İngilizce kelimeleri yakalayarak puan topla.",
+  thumb:"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area" style="text-align:center">
+        <h3>🇬🇧 Kelime Yakala</h3>
+        <p id="wordQuestion"></p>
+        <div id="wordOptions" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"></div>
+        <small>Skor: <span id="wordScore">0</span> | Can: <span id="wordLives">3</span></small>
+      </div>
+    `;
+
+    const diff=askDifficulty();
+    const grade=askGrade();
+
+    const words=[
+      ["apple","elma"],["book","kitap"],["car","araba"],["dog","köpek"],
+      ["house","ev"],["school","okul"],["water","su"],["sun","güneş"],
+      ["computer","bilgisayar"],["teacher","öğretmen"],["friend","arkadaş"]
+    ];
+
+    let lives=3;
+    let score=0;
+    const qEl=document.getElementById("wordQuestion");
+    const oEl=document.getElementById("wordOptions");
+    const sEl=document.getElementById("wordScore");
+    const lEl=document.getElementById("wordLives");
+
+    function newRound(){
+      const pair=words[Math.floor(Math.random()*words.length)];
+      const correct=pair[0];
+      qEl.innerHTML=`"${pair[1]}" kelimesinin İngilizcesi hangisi?`;
+      const options=[correct];
+      while(options.length<4){
+        const r=words[Math.floor(Math.random()*words.length)][0];
+        if(!options.includes(r))options.push(r);
+      }
+      options.sort(()=>Math.random()-0.5);
+      oEl.innerHTML="";
+      options.forEach(opt=>{
+        const btn=document.createElement("button");
+        btn.className="nav-btn";
+        btn.textContent=opt;
+        btn.onclick=()=>{
+          if(opt===correct){
+            score+=10;
+            sEl.textContent=score;
+          }else{
+            lives--;
+            lEl.textContent=lives;
+            if(lives<=0){gameOver();return;}
+          }
+          newRound();
+        };
+        oEl.appendChild(btn);
+      });
+    }
+
+    function gameOver(){
+      alert("Oyun bitti! Skor: "+score);
+      saveScore("wordcatch",session.user,score);
+      renderScoreboard("wordcatch");
+    }
+
+    newRound();
+  }
+});
+
+/* ==========================================================
+   GAME 7: MEMORY MATCH
+========================================================== */
+games.push({
+  id:"memory",
+  title:"Hafıza Kartları",
+  category:"Zeka / Hafıza",
+  gradeMin:1,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Kartlara tıkla",
+  goal:"Aynı kart çiftlerini bularak tüm kartları aç.",
+  thumb:"https://images.unsplash.com/photo-1523875194681-bedd468c58bf?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    const diff=askDifficulty();
+    const grade=askGrade();
+    const size=diff==="zor"?16:diff==="orta"?12:8;
+    const emojis=["🍎","🍌","🍇","🍓","🍒","🍍","🥝","🍉","🍑","🍐","🍊","🥭"];
+    const cards=emojis.slice(0,size/2).concat(emojis.slice(0,size/2));
+    cards.sort(()=>Math.random()-0.5);
+
+    area.innerHTML=`
+      <div class="game-area" style="text-align:center">
+        <h3>🧠 Hafıza Oyunu</h3>
+        <div id="memoryGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:300px;margin:auto"></div>
+        <small>Hamle: <span id="memoryMoves">0</span></small>
+      </div>
+    `;
+
+    const grid=document.getElementById("memoryGrid");
+    let first=null,second=null,lock=false;
+    let moves=0,matched=0;
+
+    cards.forEach(val=>{
+      const card=document.createElement("div");
+      card.style.background="rgba(255,255,255,.08)";
+      card.style.borderRadius="12px";
+      card.style.padding="16px";
+      card.style.fontSize="28px";
+      card.style.cursor="pointer";
+      card.style.userSelect="none";
+      card.textContent="❓";
+      card.dataset.value=val;
+      card.onclick=()=>{
+        if(lock||card.textContent!=="❓")return;
+        card.textContent=val;
+        if(!first){
+          first=card;
+        }else{
+          second=card;
+          lock=true;
+          moves++;
+          document.getElementById("memoryMoves").textContent=moves;
+          if(first.dataset.value===second.dataset.value){
+            matched+=2;
+            reset();
+            if(matched===cards.length){
+              win();
+            }
+          }else{
+            setTimeout(()=>{
+              first.textContent="❓";
+              second.textContent="❓";
+              reset();
+            },700);
+          }
+        }
+      };
+      grid.appendChild(card);
+    });
+
+    function reset(){
+      [first,second,lock]=[null,null,false];
+    }
+    function win(){
+      const score=Math.max(0,1000-moves*20);
+      alert("Tebrikler! Skor: "+score);
+      saveScore("memory",session.user,score);
+      renderScoreboard("memory");
+    }
+  }
+});
+
+/* ==========================================================
+   GAME 8: REACTION TEST
+========================================================== */
+games.push({
+  id:"reaction",
+  title:"Refleks Testi",
+  category:"Refleks / Hız",
+  gradeMin:1,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Yeşil olunca tıkla",
+  goal:"En kısa sürede tıklayarak en iyi refleks süresini yap.",
+  thumb:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area" style="text-align:center">
+        <h3>⚡ Refleks Testi</h3>
+        <div id="reactionBox" style="width:200px;height:200px;margin:20px auto;border-radius:20px;background:#ef4444;display:flex;align-items:center;justify-content:center;font-weight:800">
+          Bekle...
+        </div>
+        <small>En iyi süre: <span id="reactionBest">-</span> ms</small>
+      </div>
+    `;
+
+    const box=document.getElementById("reactionBox");
+    const bestEl=document.getElementById("reactionBest");
+    let startTime=0;
+    let best=null;
+    let ready=false;
+
+    function startRound(){
+      box.style.background="#ef4444";
+      box.textContent="Bekle...";
+      ready=false;
+      setTimeout(()=>{
+        box.style.background="#22c55e";
+        box.textContent="TIKLA!";
+        ready=true;
+        startTime=performance.now();
+      },1000+Math.random()*3000);
+    }
+
+    box.onclick=()=>{
+      if(!ready){
+        alert("Erken tıkladın 😅");
+        startRound();
+        return;
+      }
+      const time=Math.round(performance.now()-startTime);
+      if(best===null||time<best){
+        best=time;
+        bestEl.textContent=time;
+        saveScore("reaction",session.user,Math.max(0,5000-time));
+        renderScoreboard("reaction");
+      }
+      startRound();
+    };
+
+    startRound();
+  }
+});
+
+/* ==========================================================
+   GAME 9: TRUE FALSE QUIZ (TÜM DERSLER)
+========================================================== */
+games.push({
+  id:"quiz",
+  title:"Bilgi Arenası",
+  category:"Ders / Genel",
+  gradeMin:1,
+  gradeMax:12,
+  difficulty:"Kolay-Orta-Zor",
+  players:"1",
+  controls:"Doğru / Yanlış butonları",
+  goal:"Soruları doğru cevaplayarak en yüksek skoru yap.",
+  thumb:"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area" style="text-align:center;max-width:500px;margin:auto">
+        <h3>📚 Bilgi Arenası</h3>
+        <p id="quizQ" style="font-size:18px"></p>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button class="nav-btn" id="quizTrue">Doğru</button>
+          <button class="nav-btn" id="quizFalse">Yanlış</button>
+        </div>
+        <small>Skor: <span id="quizScore">0</span> | Can: <span id="quizLives">3</span></small>
+      </div>
+    `;
+
+    const diff=askDifficulty();
+    const grade=askGrade();
+
+    const questions=[
+      {q:"Türkiye'nin başkenti Ankara'dır.",a:true},
+      {q:"5 x 8 = 45",a:false},
+      {q:"Dünya Güneş'in etrafında döner.",a:true},
+      {q:"Su 0°C'de donar.",a:true},
+      {q:"İngilizce 'book' kelimesi masa demektir.",a:false},
+      {q:"9 + 6 = 15",a:true},
+      {q:"İnsan kalbi 3 odacıklıdır.",a:false},
+      {q:"Ay, Dünya'nın uydusudur.",a:true},
+      {q:"10 ÷ 2 = 6",a:false},
+      {q:"Işık sesten hızlıdır.",a:true}
+    ];
+
+    let lives=3;
+    let score=0;
+    let current=null;
+
+    const qEl=document.getElementById("quizQ");
+    const sEl=document.getElementById("quizScore");
+    const lEl=document.getElementById("quizLives");
+
+    function newQ(){
+      current=questions[Math.floor(Math.random()*questions.length)];
+      qEl.textContent=current.q;
+    }
+
+    function answer(val){
+      if(val===current.a){
+        score+=10;
+        sEl.textContent=score;
+      }else{
+        lives--;
+        lEl.textContent=lives;
+        if(lives<=0){gameOver();return;}
+      }
+      newQ();
+    }
+
+    document.getElementById("quizTrue").onclick=()=>answer(true);
+    document.getElementById("quizFalse").onclick=()=>answer(false);
+
+    function gameOver(){
+      alert("Oyun bitti! Skor: "+score);
+      saveScore("quiz",session.user,score);
+      renderScoreboard("quiz");
+    }
+
+    newQ();
+  }
+});
+
+/* ==========================================================
+   GAME 10: 2 PLAYER DUEL (2 OYUNCULU)
+========================================================== */
+games.push({
+  id:"duel",
+  title:"İki Kişilik Düello",
+  category:"2 Oyunculu / Refleks",
+  gradeMin:5,
+  gradeMax:12,
+  difficulty:"Orta-Zor",
+  players:"2",
+  controls:"Oyuncu 1: A tuşu | Oyuncu 2: L tuşu",
+  goal:"Ekran yeşil olduğunda en hızlı tuşa basan kazanır.",
+  thumb:"https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+  start(){
+    const area=document.getElementById("gameArea");
+    area.innerHTML=`
+      <div class="game-area" style="text-align:center">
+        <h3>⚔ İki Kişilik Düello</h3>
+        <p id="duelStatus">Hazırlanın...</p>
+        <div id="duelBox" style="width:200px;height:200px;margin:20px auto;border-radius:20px;background:#ef4444;display:flex;align-items:center;justify-content:center;font-weight:800">
+          Bekle...
+        </div>
+        <small>Oyuncu 1 (A) vs Oyuncu 2 (L)</small>
+      </div>
+    `;
+
+    const box=document.getElementById("duelBox");
+    const status=document.getElementById("duelStatus");
+    let ready=false;
+    let finished=false;
+
+    function startRound(){
+      box.style.background="#ef4444";
+      box.textContent="Bekle...";
+      status.textContent="Hazırlanın...";
+      ready=false;
+      finished=false;
+      setTimeout(()=>{
+        box.style.background="#22c55e";
+        box.textContent="BAS!";
+        status.textContent="Şimdi!";
+        ready=true;
+      },1000+Math.random()*3000);
+    }
+
+    document.onkeydown=e=>{
+      if(!ready||finished)return;
+      if(e.key.toLowerCase()==="a"){
+        win("Oyuncu 1");
+      }
+      if(e.key.toLowerCase()==="l"){
+        win("Oyuncu 2");
+      }
+    };
+
+    function win(player){
+      finished=true;
+      status.textContent=player+" kazandı! 🎉";
+      alert(player+" kazandı!");
+      startRound();
+    }
+
+    startRound();
+  }
+});
+
+/* ==========================================================
+   GAME CATEGORIES
+========================================================== */
+function renderGameCategories(){
+  const bar=document.getElementById("gameCategoryBar");
+  const cats=["Tümü",...new Set(games.map(g=>g.category))];
+  bar.innerHTML="";
+  cats.forEach(cat=>{
+    const btn=document.createElement("button");
+    btn.className="tab-btn"+(cat===activeGameCategory?" active":"");
+    btn.textContent=cat;
+    btn.onclick=()=>{activeGameCategory=cat;renderGames();};
+    bar.appendChild(btn);
+  });
+}
+
+/* ==========================================================
+   RENDER GAMES
+========================================================== */
+function renderGames(){
+  const grid=document.getElementById("gamesGrid");
+  const q=document.getElementById("searchInput").value.toLowerCase();
+  grid.innerHTML="";
+  let list=[...games];
+  if(activeGameCategory!=="Tümü"){
+    list=list.filter(g=>g.category===activeGameCategory);
+  }
+  if(q){
+    list=list.filter(g=>
+      g.title.toLowerCase().includes(q)||
+      g.category.toLowerCase().includes(q)
+    );
+  }
+  if(list.length===0){
+    grid.innerHTML="<p>Oyun bulunamadı 😕</p>";
+    return;
+  }
+  list.forEach(g=>{
+    const div=document.createElement("div");
+    div.className="game-card";
+    div.innerHTML=`
+      <img src="${g.thumb}">
+      <div class="overlay"></div>
+      <div class="game-body">
+        <div class="game-title">${g.title}</div>
+        <div class="game-meta">
+          <span>${g.category}</span>
+          <span>${g.gradeMin}-${g.gradeMax}. Sınıf</span>
+          <span>${g.players} Oyuncu</span>
+          <span>${g.difficulty}</span>
+        </div>
+        <div class="game-footer">
+          <button onclick="openGame(games.find(x=>x.id==='${g.id}'))">Oyna</button>
+          <button class="secondary" onclick="openGameInfo('${g.id}')">ℹ</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+/* ==========================================================
+   GAME INFO
+========================================================== */
+function openGameInfo(id){
+  const g=games.find(x=>x.id===id);
+  if(!g)return;
+  alert(
+    "🎮 "+g.title+
+    "\n\n🎯 Amaç:\n"+g.goal+
+    "\n\n🎮 Kontroller:\n"+g.controls+
+    "\n\n👥 Oyuncu: "+g.players+
+    "\n📚 Seviye: "+g.gradeMin+"-"+g.gradeMax+". sınıf"+
+    "\n⚡ Zorluk: "+g.difficulty
+  );
+}
+
+/* ==========================================================
+   SEED DATA
+========================================================== */
+function seedNews(){
+  const cats=["Spor","Teknoloji","Gündem","Eğitim","Magazin","Sağlık","Oyun","Bilim"];
+  const titles=[
+    "Türkiye'de yeni gelişme",
+    "Uzmanlardan önemli açıklama",
+    "Gençleri ilgilendiren karar",
+    "Rekor kıran teknoloji",
+    "Spor dünyasında sürpriz",
+    "Eğitimde büyük değişiklik",
+    "Sağlık alanında umut veren haber",
+    "Bilim insanlarından keşif",
+    "Oyun dünyasında yeni dönem",
+    "Gündemi sarsan olay"
+  ];
+  for(let i=0;i<900;i++){
+    const cat=cats[i%cats.length];
+    news.push({
+      id:Date.now()+i,
+      title:titles[i%titles.length]+" #" + (i+1),
+      desc:"Bu haber otomatik oluşturulmuş örnek içeriktir. Aymira Mega Portal demo verisidir.",
+      img:"https://picsum.photos/500/300?random="+(i+1),
+      price:Math.floor(Math.random()*50)+10,
+      category:cat,
+      breaking:Math.random()<0.1,
+      comments:[]
+    });
+  }
+  saveNews();
+}
+function seedShop(){
+  const cats=["Oyun","Kitap","Teknoloji","Eğitim","Aksesuar"];
+  const titles=[
+    "Oyuncu Kulaklığı","Mekanik Klavye","Akıllı Saat","Matematik Kitabı",
+    "Bilim Seti","Oyun Mouse","Defter Seti","Kalem Kutusu",
+    "Mini Drone","Bluetooth Hoparlör"
+  ];
+  for(let i=0;i<200;i++){
+    const cat=cats[i%cats.length];
+    shop.push({
+      id:Date.now()+10000+i,
+      title:titles[i%titles.length]+" #" + (i+1),
+      desc:"Bu ürün demo amaçlıdır. Aymira Mega Portal mağaza verisidir.",
+      img:"https://picsum.photos/500/300?random="+(i+1000),
+      price:Math.floor(Math.random()*200)+50,
+      category:cat
+    });
+  }
+  saveShop();
+}
+
+/* ==========================================================
+   INIT
+========================================================== */
+(function init(){
+  // Modal bugları: Başlangıçta hiçbir modal açık değil ✅
+  closeModal("loginModal");
+  closeModal("cartModal");
+  closeModal("adminLoginModal");
+  closeModal("adminPanel");
+  closeModal("gameModal");
+
+  if(news.length<500)seedNews();
+  if(shop.length<100)seedShop();
+
+  updateCartCount();
+  renderNewsCategories();
+  renderNews();
+  renderShopCategories();
+  renderShop();
+  renderGameCategories();
+  renderGames();
+})();
+</script>
+
+</body>
+</html>

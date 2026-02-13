@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>AYMIRA HABER</title>
+  <style>
+    :root {
+      --main:#4f46e5;
+      --secondary:#06b6d4;
+      --bg:#f4f7ff;
+      --text:#111827;
+      --card:#ffffff;
+      --accent:#f59e0b;
+      --danger:#dc2626;
+      --success:#16a34a;
+    }
+
+    body.dark {
+      --main:#6366f1;
+      --secondary:#22d3ee;
+      --bg:#0f172a;
+      --text:#e5e7eb;
+      --card:#1e293b;
+      --accent:#fbbf24;
+      --danger:#ef4444;
+      --success:#22c55e;
+    }
+
+    body { margin:0; font-family:'Segoe UI',sans-serif; background:var(--bg); color:var(--text); }
+
+    header { background:linear-gradient(90deg,var(--main),var(--secondary)); color:white; padding:15px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:26px; }
+
+    nav a { color:white; margin:5px 10px; text-decoration:none; font-weight:600; cursor:pointer; }
+
+    .top-bar { width:100%; margin-top:10px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+
+    .search { padding:8px; border-radius:10px; border:none; width:220px; outline:none; }
+
+    button { background:var(--main); color:white; border:none; padding:8px 14px; border-radius:10px; cursor:pointer; font-weight:600; }
+    button.secondary { background:var(--secondary); }
+    button.warn { background:var(--danger); }
+    button.success { background:var(--success); }
+    button.small { padding:5px 10px; font-size:12px; }
+    button.outline { background:transparent; border:2px solid var(--main); color:var(--main); }
+    button:hover { opacity:0.9; }
+
+    .container { padding:20px; }
+
+    .news-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
+
+    .card { background:var(--card); border-radius:18px; box-shadow:0 10px 20px rgba(0,0,0,0.08); overflow:hidden; transition:0.25s; cursor:pointer; display:flex; flex-direction:column; }
+    .card:hover { transform:translateY(-4px); box-shadow:0 16px 28px rgba(0,0,0,0.12); }
+
+    .card img { width:100%; height:180px; object-fit:cover; }
+
+    .card-content { padding:12px; flex:1; display:flex; flex-direction:column; gap:6px; }
+
+    .category { font-size:12px; font-weight:700; color:var(--secondary); text-transform:uppercase; }
+    .badge { background:var(--accent); color:white; font-size:11px; padding:3px 8px; border-radius:999px; margin-left:6px; }
+    .badge.breaking { background:var(--danger); }
+    .badge.local { background:var(--success); }
+
+    .card h3 { margin:2px 0; font-size:17px; }
+    .card p { margin:0; font-size:14px; color:#6b7280; }
+
+    /* HERO SLIDER */
+    .hero { display:grid; grid-template-columns:2fr 1fr; gap:16px; margin-bottom:20px; }
+    .hero-main { position:relative; border-radius:20px; overflow:hidden; height:340px; cursor:pointer; }
+    .hero-main img { width:100%; height:100%; object-fit:cover; }
+    .hero-overlay { position:absolute; bottom:0; left:0; right:0; padding:20px; background:linear-gradient(transparent,rgba(0,0,0,0.7)); color:white; }
+    .hero-overlay h2 { margin:6px 0 0 0; }
+
+    .hero-side { display:grid; grid-template-rows:repeat(2,1fr); gap:16px; }
+    .hero-small { position:relative; border-radius:18px; overflow:hidden; cursor:pointer; }
+    .hero-small img { width:100%; height:100%; object-fit:cover; }
+
+    /* BREAKING BAR */
+    .breaking-bar { background:var(--danger); color:white; padding:10px; font-weight:700; overflow:hidden; white-space:nowrap; display:none; }
+    .breaking-text { display:inline-block; padding-left:100%; animation: scroll 18s linear infinite; }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+    /* LOGIN */
+    .login-box { max-width:320px; margin:90px auto; background:var(--card); padding:24px; border-radius:18px; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
+    .login-box input { width:100%; padding:10px; margin-bottom:12px; border-radius:10px; border:1px solid #d1d5db; }
+
+    /* ADMIN */
+    .admin-panel { max-width:950px; margin:40px auto; background:var(--card); padding:24px; border-radius:20px; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
+
+    .admin-panel input, .admin-panel textarea, .admin-panel select { width:100%; padding:9px; margin-bottom:10px; border-radius:10px; border:1px solid #d1d5db; font-size:14px; }
+
+    .admin-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+    .admin-news-item { border:1px solid #e5e7eb; padding:10px; border-radius:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+
+    .admin-news-item b { font-size:14px; }
+
+    .admin-preview { width:100%; max-height:180px; object-fit:cover; border-radius:12px; margin-bottom:10px; display:none; }
+
+    .admin-tags { display:flex; gap:6px; flex-wrap:wrap; }
+    .tag { background:#e0f2fe; color:#0369a1; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+
+    /* MODAL / DETAIL PAGE */
+    .modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:1000; }
+    .modal-content { background:var(--card); padding:22px; border-radius:18px; max-width:820px; width:94%; max-height:92vh; overflow:auto; }
+
+    .modal-content img { width:100%; border-radius:14px; margin-bottom:12px; }
+
+    .detail-meta { display:flex; flex-wrap:wrap; gap:10px; font-size:13px; color:#6b7280; margin-bottom:10px; }
+
+    .detail-section { margin-top:14px; }
+
+    .related { margin-top:18px; }
+    .related-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
+
+    /* COMMENTS */
+    .comments { margin-top:20px; }
+    .comment { border-bottom:1px solid #e5e7eb; padding:8px 0; }
+    .comment b { font-size:13px; }
+    .comment p { margin:4px 0 0 0; font-size:13px; }
+
+    /* ALERT BOX */
+    .alert { padding:10px; border-radius:10px; margin-bottom:12px; font-weight:600; }
+    .alert.earthquake { background:#fee2e2; color:#991b1b; }
+    .alert.local { background:#dcfce7; color:#065f46; }
+
+    footer { background:#1e3a8a; color:white; padding:24px; margin-top:40px; text-align:center; border-top-left-radius:24px; border-top-right-radius:24px; }
+
+    .pill { background:#e0f2fe; color:#0369a1; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+
+    @media (max-width:700px) {
+      .hero { grid-template-columns:1fr; }
+      .hero-side { grid-template-rows:1fr 1fr; grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AYMIRA HABER</h1>
+  <nav>
+    <a onclick="showPage('home')">Anasayfa</a>
+    <a onclick="showPage('world')">Dünya</a>
+    <a onclick="showPage('tech')">Teknoloji</a>
+    <a onclick="showPage('sports')">Spor</a>
+    <a onclick="showPage('education')">Eğitim</a>
+    <a onclick="showPage('economy')">Ekonomi</a>
+    <a onclick="showPage('earthquake')">Deprem</a>
+    <a onclick="showPage('kocaali')">📍 Kocaali</a>
+    <a onclick="showPage('login')">Admin</a>
+  </nav>
+
+  <div class="top-bar">
+    <input class="search" id="searchInput" placeholder="Haber ara..." oninput="searchNews()">
+    <div style="display:flex; gap:8px">
+      <button class="secondary" onclick="toggleTheme()">🌙 / ☀️</button>
+      <span class="pill" id="liveClock"></span>
+    </div>
+  </div>
+</header>
+
+<div class="breaking-bar" id="breakingBar"><span class="breaking-text" id="breakingText"></span></div>
+
+<!-- HOME -->
+<div class="container" id="home">
+  <div class="hero" id="heroSection"></div>
+  <h2>🔥 Son Dakika & Öne Çıkanlar</h2>
+  <div class="news-grid" id="newsList"></div>
+</div>
+
+<div class="container" id="world" style="display:none"><h2>🌍 Dünya</h2><div class="news-grid" id="worldList"></div></div>
+<div class="container" id="tech" style="display:none"><h2>💻 Teknoloji</h2><div class="news-grid" id="techList"></div></div>
+<div class="container" id="sports" style="display:none"><h2>🏐 Spor</h2><div class="news-grid" id="sportsList"></div></div>
+<div class="container" id="education" style="display:none"><h2>🎓 Eğitim</h2><div class="news-grid" id="educationList"></div></div>
+<div class="container" id="economy" style="display:none"><h2>💰 Ekonomi</h2><div class="news-grid" id="economyList"></div></div>
+<div class="container" id="earthquake" style="display:none"><h2>🌍 Deprem</h2><div class="news-grid" id="earthquakeList"></div></div>
+<div class="container" id="kocaali" style="display:none"><h2>📍 Kocaali & Yerel Haberler</h2><div class="news-grid" id="kocaaliList"></div></div>
+
+<!-- LOGIN -->
+<div class="login-box" id="login" style="display:none">
+  <h2>Admin Giriş</h2>
+  <input type="password" id="adminPass" placeholder="Şifre">
+  <button onclick="login()">Giriş</button>
+  <p id="loginError" style="color:red"></p>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel" style="display:none">
+  <h2>🛠 Admin Panel</h2>
+
+  <div class="admin-row">
+    <input id="title" placeholder="Haber Başlığı">
+    <select id="category">
+      <option value="world">Dünya</option>
+      <option value="tech">Teknoloji</option>
+      <option value="sports">Spor</option>
+      <option value="education">Eğitim</option>
+      <option value="economy">Ekonomi</option>
+      <option value="earthquake">Deprem</option>
+      <option value="kocaali">Kocaali / Yerel</option>
+    </select>
+  </div>
+
+  <textarea id="content" placeholder="Haber İçeriği (uzun uzun yazabilirsin)"></textarea>
+
+  <textarea id="details" placeholder="Detaylı Bilgi (isteğe bağlı, daha uzun açıklama)"></textarea>
+
+  <label><b>📷 Haber Görseli Yükle</b></label>
+  <input type="file" id="imageFile" accept="image/*">
+  <img id="imagePreview" class="admin-preview">
+
+  <label style="display:block; margin:8px 0"><input type="checkbox" id="breaking"> Son Dakika Olarak İşaretle</label>
+  <label style="display:block; margin:6px 0"><input type="checkbox" id="isLocal"> Yerel / Kocaali Haberi</label>
+
+  <button onclick="addNews()">Haberi Ekle</button>
+  <button class="warn" onclick="clearAllNews()">Tüm Haberleri Sil</button>
+  <button class="secondary" onclick="logout()">Çıkış</button>
+
+  <h3 style="margin-top:20px">📋 Mevcut Haberler</h3>
+  <div id="adminNews"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<footer>
+  <p>📞 +90 555 123 45 67 | 📧 aymirahaber@gmail.com</p>
+  <p>© 2026 AYMIRA HABER</p>
+</footer>
+
+<script>
+  const ADMIN_PASSWORD = "2013";
+
+  /* -------------------- DEFAULT NEWS (50 ADET, RESİMLİ, DETAYLI) -------------------- */
+  function getDefaultNews() {
+    const imgs = [
+      "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1581091012184-5c7fa9c2c94c?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=60",
+      "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=60"
+    ];
+
+    const cats = ["world","tech","sports","education","economy","earthquake","kocaali"];
+
+    const arr = [];
+
+    // Özel Kocaali haberleri
+    arr.push({
+      title: "Kocaali sahilinde kuvvetli rüzgar ve dalga uyarısı",
+      content: "Sakarya'nın Kocaali ilçesinde Meteoroloji tarafından kuvvetli rüzgar ve yüksek dalga uyarısı yapıldı.",
+      details: "Yetkililer, özellikle sahil kesiminde bulunan vatandaşların dikkatli olması gerektiğini belirtti. Balıkçı tekneleri için denize açılmama tavsiyesi verildi. Kocaali Belediyesi ekipleri sahil şeridinde önlem aldı ve vatandaşları bilgilendirdi.",
+      image: imgs[0],
+      category: "kocaali",
+      breaking: true,
+      isLocal: true,
+      date: new Date().toISOString()
+    });
+
+    arr.push({
+      title: "Kocaali'de okullarda çevre temizliği etkinliği düzenlendi",
+      content: "Kocaali ilçesindeki öğrenciler sahil ve okul çevresinde temizlik yaptı.",
+      details: "Etkinliğe Kocaali Kaymakamlığı, İlçe Milli Eğitim Müdürlüğü ve belediye ekipleri destek verdi. Öğrenciler hem çevre bilinci kazandı hem de ilçenin doğal güzelliklerini korumaya katkı sağladı. Yetkililer bu tür etkinliklerin yıl boyunca devam edeceğini açıkladı.",
+      image: imgs[1],
+      category: "kocaali",
+      breaking: false,
+      isLocal: true,
+      date: new Date().toISOString()
+    });
+
+    arr.push({
+      title: "Kocaali açıklarında 3.6 büyüklüğünde deprem hissedildi",
+      content: "AFAD verilerine göre Karadeniz açıklarında meydana gelen deprem Kocaali ve çevresinde hissedildi.",
+      details: "Deprem saat 14.23'te meydana geldi ve kısa süreli paniğe neden oldu. İlk belirlemelere göre herhangi bir can veya mal kaybı yaşanmadı. Uzmanlar Karadeniz fay hattında bu tür küçük sarsıntıların normal olduğunu belirtti.",
+      image: imgs[2],
+      category: "earthquake",
+      breaking: true,
+      isLocal: true,
+      date: new Date().toISOString()
+    });
+
+    // Genel haberler
+    for (let i=4;i<=50;i++) {
+      const cat = cats[i % cats.length];
+      arr.push({
+        title: `Güncel Haber ${i}`,
+        content: `Bu ${i}. haber özetidir. AYMIRA HABER sitesinde dünya, teknoloji, spor, eğitim, ekonomi, deprem ve yerel gelişmeleri takip edebilirsin.`,
+        details: `Bu ${i}. haberin detaylı içeriğidir. Burada olayın nerede olduğu, kimleri etkilediği, yetkililerin ne söylediği ve bundan sonra neler olabileceği gibi bilgiler yer alır. AYMIRA HABER, okuyucularına doğru ve anlaşılır bilgi sunmayı amaçlar.`,
+        image: imgs[i % imgs.length],
+        category: cat,
+        breaking: i % 9 === 0,
+        isLocal: cat === "kocaali",
+        date: new Date(Date.now() - i*3600000).toISOString()
+      });
+    }
+
+    return arr;
+  }
+
+  let news = JSON.parse(localStorage.getItem("aymiraNews"));
+  if (!news || !Array.isArray(news)) {
+    news = getDefaultNews();
+    save();
+  }
+
+  function save() {
+    localStorage.setItem("aymiraNews", JSON.stringify(news));
+  }
+
+  function showPage(page) {
+    document.querySelectorAll('.container, .login-box, .admin-panel').forEach(div => div.style.display = 'none');
+    document.getElementById(page).style.display = 'block';
+  }
+
+  /* -------------------- RENDERING -------------------- */
+  function render(list = news) {
+    const all = document.getElementById("newsList");
+    const world = document.getElementById("worldList");
+    const tech = document.getElementById("techList");
+    const sports = document.getElementById("sportsList");
+    const education = document.getElementById("educationList");
+    const economy = document.getElementById("economyList");
+    const earthquake = document.getElementById("earthquakeList");
+    const kocaali = document.getElementById("kocaaliList");
+
+    all.innerHTML = world.innerHTML = tech.innerHTML = sports.innerHTML = education.innerHTML = economy.innerHTML = earthquake.innerHTML = kocaali.innerHTML = "";
+
+    list.forEach((n, i) => {
+      const badge = n.breaking ? '<span class="badge breaking">SON DAKİKA</span>' : '';
+      const localBadge = n.isLocal ? '<span class="badge local">YEREL</span>' : '';
+
+      const card = `
+        <div class="card" onclick="openModal(${i})">
+          <img src="${n.image}">
+          <div class="card-content">
+            <span class="category">${n.category.toUpperCase()} ${badge} ${localBadge}</span>
+            <h3>${n.title}</h3>
+            <p>${n.content.substring(0,90)}...</p>
+          </div>
+        </div>`;
+
+      all.innerHTML += card;
+      if (n.category === "world") world.innerHTML += card;
+      if (n.category === "tech") tech.innerHTML += card;
+      if (n.category === "sports") sports.innerHTML += card;
+      if (n.category === "education") education.innerHTML += card;
+      if (n.category === "economy") economy.innerHTML += card;
+      if (n.category === "earthquake") earthquake.innerHTML += card;
+      if (n.category === "kocaali" || n.isLocal) kocaali.innerHTML += card;
+    });
+
+    renderHero();
+    renderBreakingBar();
+    renderAdmin();
+  }
+
+  function renderHero() {
+    const hero = document.getElementById("heroSection");
+    const top = news.slice(0,3);
+
+    if (top.length < 3) { hero.innerHTML = ""; return; }
+
+    hero.innerHTML = `
+      <div class="hero-main" onclick="openModal(0)">
+        <img src="${top[0].image}">
+        <div class="hero-overlay">
+          <span class="badge">MANŞET</span>
+          <h2>${top[0].title}</h2>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-small" onclick="openModal(1)">
+          <img src="${top[1].image}">
+          <div class="hero-overlay"><h3>${top[1].title}</h3></div>
+        </div>
+        <div class="hero-small" onclick="openModal(2)">
+          <img src="${top[2].image}">
+          <div class="hero-overlay"><h3>${top[2].title}</h3></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderBreakingBar() {
+    const breaking = news.filter(n => n.breaking);
+    if (breaking.length === 0) {
+      document.getElementById("breakingBar").style.display = "none";
+      return;
+    }
+
+    const text = breaking.map(n => n.title).join("  •  ");
+    document.getElementById("breakingText").textContent = "SON DAKİKA: " + text;
+    document.getElementById("breakingBar").style.display = "block";
+  }
+
+  /* -------------------- AUTH -------------------- */
+  function login() {
+    const pass = document.getElementById("adminPass").value;
+    if (pass === ADMIN_PASSWORD) {
+      showPage('adminPanel');
+    } else {
+      document.getElementById("loginError").textContent = "Yanlış şifre!";
+    }
+  }
+
+  function logout() {
+    showPage('home');
+  }
+
+  /* -------------------- ADMIN IMAGE PREVIEW -------------------- */
+  document.getElementById("imageFile").addEventListener("change", function() {
+    const file = this.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById("imagePreview").src = e.target.result;
+      document.getElementById("imagePreview").style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* -------------------- ADD NEWS -------------------- */
+  function addNews() {
+    const title = document.getElementById("title").value.trim();
+    const content = document.getElementById("content").value.trim();
+    const details = document.getElementById("details").value.trim();
+    const category = document.getElementById("category").value;
+    const breaking = document.getElementById("breaking").checked;
+    const isLocal = document.getElementById("isLocal").checked || category === "kocaali";
+    const fileInput = document.getElementById("imageFile");
+
+    if (!title || !content) {
+      alert("Başlık ve içerik boş olamaz!");
+      return;
+    }
+
+    const addItem = (imgData) => {
+      news.unshift({
+        title,
+        content,
+        details: details || content,
+        image: imgData,
+        category,
+        breaking,
+        isLocal,
+        date: new Date().toISOString()
+      });
+      save();
+      render();
+
+      document.getElementById("title").value = "";
+      document.getElementById("content").value = "";
+      document.getElementById("details").value = "";
+      document.getElementById("breaking").checked = false;
+      document.getElementById("isLocal").checked = false;
+      fileInput.value = "";
+      document.getElementById("imagePreview").style.display = "none";
+    };
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => addItem(e.target.result);
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      const fallback = `https://source.unsplash.com/1000x700/?news,${category}`;
+      addItem(fallback);
+    }
+  }
+
+  /* -------------------- ADMIN LIST -------------------- */
+  function renderAdmin() {
+    const adminBox = document.getElementById("adminNews");
+    adminBox.innerHTML = "";
+
+    if (news.length === 0) {
+      adminBox.innerHTML = "<p>📭 Hiç haber yok. Üstten yeni haber ekleyebilirsin.</p>";
+      return;
+    }
+
+    news.forEach((n, i) => {
+      adminBox.innerHTML += `
+        <div class="admin-news-item">
+          <div>
+            <b>${n.title}</b><br>
+            <small>${n.category.toUpperCase()} ${n.isLocal ? '• YEREL' : ''}</small>
+          </div>
+          <div style="display:flex; gap:6px">
+            <button class="small warn" onclick="deleteNews(${i})">Sil</button>
+          </div>
+        </div>`;
+    });
+  }
+
+  function deleteNews(index) {
+    if (confirm("Haberi silmek istediğine emin misin?")) {
+      news.splice(index, 1);
+      save();
+      render();
+    }
+  }
+
+  function clearAllNews() {
+    if (confirm("Tüm haberleri silmek istediğine emin misin?")) {
+      news = [];
+      save();
+      render();
+    }
+  }
+
+  /* -------------------- DETAIL PAGE (MODAL) -------------------- */
+  function openModal(index) {
+    const n = news[index];
+
+    const dateStr = n.date ? new Date(n.date).toLocaleString('tr-TR') : new Date().toLocaleString('tr-TR');
+
+    let alerts = '';
+    if (n.category === 'earthquake') {
+      alerts += '<div class="alert earthquake">⚠️ Deprem Haberi: Resmi kaynakları takip edin.</div>';
+    }
+    if (n.isLocal) {
+      alerts += '<div class="alert local">📍 Yerel Haber (Kocaali ve çevresi)</div>';
+    }
+
+    // İlgili haberler
+    const related = news.filter(x => x.category === n.category && x !== n).slice(0,4);
+
+    const relatedHTML = related.map((r, i) => `
+      <div class="card" onclick="openModal(${news.indexOf(r)})">
+        <img src="${r.image}">
+        <div class="card-content">
+          <h4>${r.title}</h4>
+        </div>
+      </div>
+    `).join('');
+
+    // Yorumlar
+    const commentsKey = 'comments_' + index;
+    const comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+
+    const commentsHTML = comments.map(c => `
+      <div class="comment"><b>${c.name}</b><p>${c.text}</p></div>
+    `).join('');
+
+    document.getElementById("modalContent").innerHTML = `
+      <h2>${n.title}</h2>
+      <div class="detail-meta">
+        <span>🕒 ${dateStr}</span>
+        <span>📂 ${n.category.toUpperCase()}</span>
+        ${n.breaking ? '<span class="badge breaking">SON DAKİKA</span>' : ''}
+        ${n.isLocal ? '<span class="badge local">YEREL</span>' : ''}
+      </div>
+
+      ${alerts}
+
+      <img src="${n.image}">
+
+      <p><b>Özet:</b> ${n.content}</p>
+
+      <div class="detail-section">
+        <h3>📄 Detaylı Bilgi</h3>
+        <p>${n.details || n.content}</p>
+      </div>
+
+      <div class="detail-section">
+        <h3>📌 Bu ne anlama geliyor?</h3>
+        <p>Uzmanlara göre bu gelişme bölgedeki vatandaşları yakından ilgilendiriyor. Yetkililer resmi açıklamaların takip edilmesini öneriyor.</p>
+      </div>
+
+      <div class="detail-section">
+        <h3>🔮 Bundan sonra ne olabilir?</h3>
+        <p>Yetkililer olayla ilgili gelişmelerin yakından izleneceğini ve yeni açıklamaların yapılacağını belirtti.</p>
+      </div>
+
+      <div class="comments">
+        <h3>💬 Yorumlar</h3>
+        <div id="commentsList">${commentsHTML || '<p>Henüz yorum yok.</p>'}</div>
+        <input id="commentName" placeholder="Adın" style="width:100%; padding:8px; margin-top:8px; border-radius:8px; border:1px solid #ccc;">
+        <textarea id="commentText" placeholder="Yorumun" style="width:100%; padding:8px; margin-top:6px; border-radius:8px; border:1px solid #ccc;"></textarea>
+        <button class="success" onclick="addComment(${index})">Yorum Ekle</button>
+      </div>
+
+      <div class="related">
+        <h3>📰 İlgili Haberler</h3>
+        <div class="related-grid">${relatedHTML || '<p>Benzer haber yok.</p>'}</div>
+      </div>
+
+      <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap">
+        <button onclick="closeModal()">Kapat</button>
+        <button class="outline" onclick="shareNews('${n.title.replace(/'/g,"\'")}')">Paylaş</button>
+      </div>
+    `;
+
+    document.getElementById("modal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+
+  /* -------------------- COMMENTS -------------------- */
+  function addComment(index) {
+    const name = document.getElementById("commentName").value.trim() || 'Misafir';
+    const text = document.getElementById("commentText").value.trim();
+
+    if (!text) {
+      alert('Yorum boş olamaz!');
+      return;
+    }
+
+    const key = 'comments_' + index;
+    const comments = JSON.parse(localStorage.getItem(key)) || [];
+    comments.push({ name, text });
+    localStorage.setItem(key, JSON.stringify(comments));
+
+    openModal(index);
+  }
+
+  /* -------------------- SHARE -------------------- */
+  function shareNews(title) {
+    if (navigator.share) {
+      navigator.share({ title, text: title, url: window.location.href });
+    } else {
+      alert('Paylaş: ' + title);
+    }
+  }
+
+  /* -------------------- SEARCH -------------------- */
+  function searchNews() {
+    const q = document.getElementById("searchInput").value.toLowerCase();
+    const filtered = news.filter(n => n.title.toLowerCase().includes(q) || n.content.toLowerCase().includes(q) || (n.details || '').toLowerCase().includes(q));
+    render(filtered);
+  }
+
+  /* -------------------- THEME -------------------- */
+  function toggleTheme() {
+    document.body.classList.toggle("dark");
+  }
+
+  /* -------------------- CLOCK -------------------- */
+  function updateClock() {
+    const d = new Date();
+    document.getElementById("liveClock").textContent = d.toLocaleString('tr-TR');
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  /* -------------------- AUTO REFRESH -------------------- */
+  setInterval(() => {
+    render();
+  }, 3600000);
+
+  render();
+</script>
+
+</body>
+</html>

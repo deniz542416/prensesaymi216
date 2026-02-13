@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>ALP SİBER KOMUTA V19 - TOP 100 RANKING</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #00f3ff; --hata: #ff0055; --arka: #000208; }
+        * { margin:0; padding:0; box-sizing:border-box; cursor: crosshair; }
+        body { background: var(--arka); color: #fff; font-family: 'JetBrains Mono', monospace; overflow: hidden; height: 100vh; }
+
+        /* GİRİŞ PANELİ */
+        #giris-ekrani { position: fixed; inset: 0; background: #000; z-index: 100000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .login-box { background: rgba(5,5,15,0.9); border: 1px solid #111; padding: 40px; width: 400px; text-align: center; }
+        .user-input { background: #000; border: 1px solid #222; color: var(--neon); padding: 12px; font-family: 'JetBrains Mono'; text-align: center; font-size: 16px; outline: none; margin-bottom: 15px; width: 100%; }
+        .user-input:focus { border-color: var(--neon); box-shadow: 0 0 10px var(--neon); }
+        .basla-btn { width: 100%; padding: 15px; border: 1px solid var(--neon); color: var(--neon); background: transparent; font-family: 'Orbitron'; cursor: pointer; transition: 0.4s; letter-spacing: 3px; font-weight: bold; }
+        .basla-btn:hover { background: var(--neon); color: #000; }
+
+        /* ANA EKRAN */
+        #shell { display: none; height: 100vh; }
+        #dock { width: 80px; background: #000; border-right: 1px solid #111; display: flex; flex-direction: column; align-items: center; padding: 50px 0; gap: 40px; }
+        .dock-icon { font-size: 24px; color: #1a1a1a; cursor: pointer; transition: 0.3s; }
+        .dock-icon.active { color: var(--neon); filter: drop-shadow(0 0 10px var(--neon)); }
+
+        .viewport { flex: 1; padding: 40px; position: relative; overflow-y: auto; }
+        .hud { position: absolute; top: 30px; right: 40px; display: flex; gap: 20px; z-index: 100; }
+        .hud-card { background: rgba(0,0,0,0.8); border-left: 3px solid var(--neon); padding: 10px 20px; border: 1px solid #111; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 50px; }
+        .card { background: #010103; border: 1px solid #111; transition: 0.3s; cursor: pointer; }
+        .card:hover { border-color: var(--neon); transform: translateY(-5px); }
+        .card img { width: 100%; height: 150px; object-fit: cover; opacity: 0.3; }
+
+        #arena { display: none; position: fixed; inset: 0; background: #000; z-index: 99999; flex-direction: column; align-items: center; justify-content: center; }
+        canvas { background: #000; border: 1px solid #222; }
+
+        /* SIRALAMA LİSTESİ */
+        .rank-container { margin-top: 30px; max-width: 800px; border: 1px solid #111; background: #05050a; max-height: 60vh; overflow-y: auto; }
+        .skor-item { padding: 15px; border-bottom: 1px solid #111; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .skor-item:hover { background: #0a0a15; }
+        .skor-item:nth-child(1) { color: gold; border-left: 4px solid gold; }
+        .skor-item:nth-child(2) { color: silver; border-left: 4px solid silver; }
+        .skor-item:nth-child(3) { color: #cd7f32; border-left: 4px solid #cd7f32; }
+    </style>
+</head>
+<body>
+
+    <div id="giris-ekrani">
+        <div class="login-box">
+            <h1 style="font-family:'Orbitron'; color: var(--neon); margin-bottom: 20px;">ALP_OS V19</h1>
+            <input type="text" id="username" class="user-input" placeholder="KULLANICI ADI">
+            <input type="password" id="password" class="user-input" placeholder="ŞİFRE">
+            <button class="basla-btn" onclick="sistemiAc()">SİSTEME GİRİŞ</button>
+        </div>
+    </div>
+
+    <div id="shell">
+        <nav id="dock">
+            <i class="fas fa-th-large dock-icon active" onclick="tab('g', this)"></i>
+            <i class="fas fa-cog dock-icon" onclick="tab('s', this)"></i>
+            <i class="fas fa-trophy dock-icon" onclick="tab('r', this)"></i>
+        </nav>
+
+        <main class="viewport">
+            <div class="hud">
+                <div class="hud-card"><small>OPERATÖR</small><div id="active-user">---</div></div>
+                <div class="hud-card"><small>SKOR</small><div id="xp-display">0</div></div>
+            </div>
+
+            <div id="view-g">
+                <h2 style="font-family:'Orbitron'; letter-spacing: 5px;">GÖREV_MODÜLLERİ</h2>
+                <div class="grid" id="game-list"></div>
+            </div>
+
+            <div id="view-s" style="display:none;">
+                <h2 style="font-family:'Orbitron';">PARAMETRELER</h2>
+                <div style="margin-top:30px; background:#050510; padding:20px; border:1px solid #111;">
+                    HIZ ÇARPANI: <input type="number" id="spd" value="10" style="background:#000; color:var(--neon); border:1px solid var(--neon); padding:5px; width:80px;">
+                </div>
+            </div>
+
+            <div id="view-r" style="display:none;">
+                <h2 style="font-family:'Orbitron';">DÜNYA_İLK_100 (TOP_RANK)</h2>
+                <div class="rank-container" id="rank-list"></div>
+                <button onclick="location.reload()" class="basla-btn" style="margin-top:20px; width: 200px;">ÇIKIŞ YAP</button>
+            </div>
+        </main>
+    </div>
+
+    <div id="arena">
+        <h1 id="game-title" style="color:var(--neon); font-family:'Orbitron'; margin-bottom:10px;"></h1>
+        <h3 style="color:#fff; margin-bottom:10px;">PUAN: <span id="live-skor">0</span></h3>
+        <canvas id="gameCvs" width="800" height="500"></canvas>
+        <button class="basla-btn" style="margin-top:20px; width: 120px;" onclick="cik()">KAPAT</button>
+    </div>
+
+<script>
+    let currentUser = "";
+    let accounts = JSON.parse(localStorage.getItem("alp_secure_accounts")) || {};
+    let score = 0, loop, cvs = document.getElementById("gameCvs"), ctx = cvs.getContext("2d");
+    let activeGame = "", p, obj, enemies, dir;
+
+    function sistemiAc() {
+        const name = document.getElementById("username").value.trim().toUpperCase();
+        const pass = document.getElementById("password").value.trim();
+        if(!name || !pass) return alert("BİLGİLERİ DOLDUR!");
+
+        if(!accounts[name]) {
+            accounts[name] = { pass: pass, score: 0 };
+        } else {
+            if(accounts[name].pass !== pass) return alert("HATALI ŞİFRE!");
+        }
+        currentUser = name;
+        saveData();
+        document.getElementById("giris-ekrani").style.display = "none";
+        document.getElementById("shell").style.display = "flex";
+        document.getElementById("active-user").innerText = currentUser;
+        document.getElementById("xp-display").innerText = accounts[currentUser].score;
+        renderGames();
+    }
+
+    function saveData() { localStorage.setItem("alp_secure_accounts", JSON.stringify(accounts)); }
+
+    function tab(id, el) {
+        ["view-g", "view-s", "view-r"].forEach(v => document.getElementById(v).style.display = "none");
+        document.getElementById("view-" + id).style.display = "block";
+        document.querySelectorAll(".dock-icon").forEach(i => i.classList.remove("active"));
+        el.classList.add("active");
+        if(id === 'r') showRank();
+    }
+
+    function showRank() {
+        const list = document.getElementById("rank-list");
+        // TÜM HESAPLARI SKORA GÖRE SIRALA VE İLK 100'Ü AL
+        const sorted = Object.keys(accounts)
+            .map(name => ({name: name, score: accounts[name].score}))
+            .sort((a,b) => b.score - a.score)
+            .slice(0, 100);
+
+        list.innerHTML = sorted.map((u, i) => `
+            <div class="skor-item">
+                <span>#${i+1} ${u.name} ${u.name === currentUser ? '(SEN)' : ''}</span>
+                <span style="color:var(--neon)">${u.score} XP</span>
+            </div>
+        `).join("");
+    }
+
+    function renderGames() {
+        const games = ["YILAN", "SILAH", "ARABA", "UZAY", "BISIKLET", "ATLAMACA"];
+        document.getElementById("game-list").innerHTML = games.map(g => `
+            <div class="card" onclick="start('${g}')">
+                <img src="https://picsum.photos/seed/${g}/400/200">
+                <div class="card-body"><h4 style="color:var(--neon)">${g}_PRO</h4></div>
+            </div>
+        `).join("");
+    }
+
+    function start(type) {
+        activeGame = type; score = 0;
+        document.getElementById("arena").style.display = "flex";
+        document.getElementById("game-title").innerText = type;
+        let speedVal = parseInt(document.getElementById("spd").value) || 10;
+        let fps = 1000 / (15 + speedVal);
+
+        if(type === 'YILAN') {
+            p = [{x:400, y:240}, {x:380, y:240}]; dir = "R"; obj = {x: 200, y: 200};
+        } else if(type === 'SILAH') {
+            p = {x: 400, y: 440, w: 40, h: 40}; enemies = []; obj = [];
+        } else if(type === 'ATLAMACA') {
+            p = {x: 100, y: 400, dy: 0, jump: false}; enemies = [{x: 800, y: 410, w: 30, h: 30}];
+        } else {
+            p = {x: 400, y: 400, w: 40, h: 40}; enemies = [];
+        }
+        if(loop) clearInterval(loop);
+        loop = setInterval(engine, fps);
+    }
+
+    function engine() {
+        ctx.fillStyle = "#000"; ctx.fillRect(0,0,800,500);
+        let bonus = parseInt(document.getElementById("spd").value) || 10;
+
+        if(activeGame === 'YILAN') {
+            let head = {...p[0]};
+            if(dir === "U") head.y -= 20; if(dir === "D") head.y += 20;
+            if(dir === "L") head.x -= 20; if(dir === "R") head.x += 20;
+            if(head.x<0||head.x>=800||head.y<0||head.y>=500) return end();
+            p.unshift(head);
+            if(head.x===obj.x && head.y===obj.y) {
+                score += (10 * bonus);
+                obj = {x: Math.floor(Math.random()*39)*20, y: Math.floor(Math.random()*24)*20};
+            } else p.pop();
+            ctx.fillStyle = "red"; ctx.fillRect(obj.x, obj.y, 18, 18);
+            ctx.fillStyle = "#00f3ff"; p.forEach(s=>ctx.fillRect(s.x, s.y, 18, 18));
+        }
+
+        if(activeGame === 'SILAH') {
+            ctx.fillStyle = "#00f3ff"; ctx.fillRect(p.x, p.y, p.w, p.h);
+            obj.forEach((m, i) => { 
+                m.y -= 10; ctx.fillStyle = "yellow"; ctx.fillRect(m.x, m.y, 4, 10);
+                enemies.forEach((e, ei) => {
+                    if(m.x > e.x && m.x < e.x+e.w && m.y < e.y+e.h) {
+                        enemies.splice(ei, 1); obj.splice(i, 1); score += (25 * bonus);
+                    }
+                });
+            });
+            if(Math.random() < 0.05) enemies.push({x: Math.random()*760, y: -40, w: 40, h: 40});
+            enemies.forEach((e, i) => {
+                e.y += 4; ctx.fillStyle = "red"; ctx.fillRect(e.x, e.y, e.w, e.h);
+                if(e.y > 500) end();
+                if(p.x < e.x+e.w && p.x+p.w > e.x && p.y < e.y+e.h && p.y+p.h > e.y) end();
+            });
+        }
+
+        if(activeGame === 'ATLAMACA') {
+            p.dy += 1.5; p.y += p.dy;
+            if(p.y > 400) { p.y = 400; p.dy = 0; p.jump = false; }
+            ctx.fillStyle = "orange"; ctx.fillRect(p.x, p.y, 40, 40);
+            ctx.fillStyle = "#111"; ctx.fillRect(0, 440, 800, 60);
+            enemies.forEach((e, i) => {
+                e.x -= 10; ctx.fillStyle = "white"; ctx.fillRect(e.x, e.y, e.w, e.h);
+                if(e.x < -30) { e.x = 800 + Math.random()*500; score += (15 * bonus); }
+                if(p.x < e.x+e.w && p.x+40 > e.x && p.y+40 > e.y) end();
+            });
+        }
+
+        if(["ARABA", "UZAY", "BISIKLET"].includes(activeGame)) {
+            ctx.fillStyle = "cyan"; ctx.fillRect(p.x, p.y, 40, 40);
+            if(Math.random() < 0.05) enemies.push({x: Math.random()*760, y: -40, w: 40, h: 40});
+            enemies.forEach((e, i) => {
+                e.y += 6; ctx.fillStyle = "red"; ctx.fillRect(e.x, e.y, e.w, e.h);
+                if(e.y > 500) { enemies.splice(i, 1); score += bonus; }
+                if(p.x < e.x+e.w && p.x+40 > e.x && p.y < e.y+e.h) end();
+            });
+        }
+        document.getElementById("live-skor").innerText = score;
+    }
+
+    function end() {
+        clearInterval(loop);
+        accounts[currentUser].score += score;
+        saveData();
+        document.getElementById("xp-display").innerText = accounts[currentUser].score;
+        alert("OYUN BİTTİ! SKOR: " + score);
+        cik();
+    }
+
+    function cik() { document.getElementById("arena").style.display = "none"; clearInterval(loop); }
+
+    window.onkeydown = (e) => {
+        const k = e.key.toLowerCase();
+        if(activeGame === 'YILAN') {
+            if(k==="w" && dir!=="D") dir="U"; if(k==="s" && dir!=="U") dir="D";
+            if(k==="a" && dir!=="R") dir="L"; if(k==="d" && dir!=="L") dir="R";
+        } else if(activeGame === 'SILAH') {
+            if(k==="a") p.x += 25; // A SAĞA
+            if(k==="d") p.x -= 25; // D SOLA
+            if(k===" ") obj.push({x: p.x+18, y: p.y});
+        } else if(activeGame === 'ATLAMACA') {
+            if(k===" " && !p.jump) { p.dy = -22; p.jump = true; }
+        } else {
+            if(k==="a") p.x -= 25; if(k==="d") p.x += 25;
+        }
+    };
+</script>
+</body>
+</html>

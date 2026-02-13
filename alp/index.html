@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Globeel Oyun</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0f172a;
+  color:white;
+}
+
+/* GİRİŞ */
+#loginScreen{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#1e3a8a,#0f172a);
+}
+.loginBox{
+  background:#020617;
+  padding:30px;
+  border-radius:15px;
+  width:300px;
+  text-align:center;
+}
+.loginBox input{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:8px;
+  border:none;
+}
+.loginBox button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#22c55e;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* MENÜ */
+#menu{
+  display:none;
+  padding:20px;
+}
+.menuTop{
+  display:flex;
+  gap:15px;
+  margin-bottom:20px;
+}
+.menuTop button{
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+}
+
+/* OYUN KART */
+.gameCard{
+  background:#020617;
+  padding:15px;
+  border-radius:15px;
+  width:200px;
+  text-align:center;
+}
+.gameCard img{
+  width:100%;
+  border-radius:10px;
+}
+.gameCard button{
+  margin-top:10px;
+  padding:8px;
+  width:100%;
+  border:none;
+  border-radius:8px;
+  background:#22c55e;
+  cursor:pointer;
+}
+
+/* OYUN EKRANI */
+#gameScreen{
+  display:none;
+  height:100vh;
+  background:black;
+}
+#gameCanvas{
+  background:#111;
+  display:block;
+  margin:auto;
+}
+.gameBottom{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#020617;
+  display:flex;
+  justify-content:space-around;
+  padding:10px;
+}
+.gameBottom button{
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- GİRİŞ -->
+<div id="loginScreen">
+  <div class="loginBox">
+    <h2>🎮 Globeel Oyun</h2>
+    <input placeholder="Kullanıcı adı">
+    <input placeholder="Şifre" type="password">
+    <button onclick="login()">Giriş Yap</button>
+  </div>
+</div>
+
+<!-- MENÜ -->
+<div id="menu">
+  <h2>Oyun Menüsü</h2>
+  <div class="menuTop">
+    <button>Tek Kişilik</button>
+    <button>İki Kişilik</button>
+    <button>Savaş Oyunları</button>
+  </div>
+
+  <div class="gameCard">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Snake_game.png">
+    <h3>Yılan Oyunu</h3>
+    <button onclick="selectMode()">Oyna</button>
+  </div>
+</div>
+
+<!-- OYUN -->
+<div id="gameScreen">
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+  <div class="gameBottom">
+    <button onclick="restart()">Yeniden Başla</button>
+    <button onclick="toggleSound()">🔊</button>
+    <button onclick="exitGame()">Çık</button>
+  </div>
+</div>
+
+<script>
+let canvas = document.getElementById("gameCanvas");
+let ctx = canvas.getContext("2d");
+
+let x=200, y=200, dx=20, dy=0;
+let foodX=100, foodY=100;
+let running=false;
+let sound=true;
+
+function login(){
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("menu").style.display="block";
+}
+
+function selectMode(){
+  let mode = confirm("İki kişilik mi oynamak istiyorsun?\nİptal = Tek kişilik");
+  startGame(mode);
+}
+
+function startGame(twoPlayer){
+  document.getElementById("menu").style.display="none";
+  document.getElementById("gameScreen").style.display="block";
+  running=true;
+  document.addEventListener("keydown",control);
+  gameLoop();
+}
+
+function gameLoop(){
+  if(!running) return;
+  setTimeout(()=>{
+    ctx.clearRect(0,0,400,400);
+    x+=dx; y+=dy;
+
+    if(x<0||x>=400||y<0||y>=400){
+      running=false;
+      alert("Oyun Bitti!");
+      return;
+    }
+
+    ctx.fillStyle="lime";
+    ctx.fillRect(x,y,18,18);
+
+    ctx.fillStyle="red";
+    ctx.fillRect(foodX,foodY,18,18);
+
+    if(x===foodX && y===foodY){
+      foodX=Math.floor(Math.random()*20)*20;
+      foodY=Math.floor(Math.random()*20)*20;
+    }
+
+    gameLoop();
+  },200); // YAVAŞLATILDI
+}
+
+function control(e){
+  if(e.key==="ArrowUp"){dx=0;dy=-20;}
+  if(e.key==="ArrowDown"){dx=0;dy=20;}
+  if(e.key==="ArrowLeft"){dx=-20;dy=0;}
+  if(e.key==="ArrowRight"){dx=20;dy=0;}
+}
+
+function restart(){
+  x=200;y=200;dx=20;dy=0;
+  running=true;
+  gameLoop();
+}
+
+function exitGame(){
+  running=false;
+  document.getElementById("gameScreen").style.display="none";
+  document.getElementById("menu").style.display="block";
+}
+
+function toggleSound(){
+  sound=!sound;
+  alert(sound?"Ses Açık":"Ses Kapalı");
+}
+</script>
+
+</body>
+</html>

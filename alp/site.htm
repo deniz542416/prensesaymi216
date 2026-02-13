@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globel_satış | Global Tech Dominance 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Fira+Code:wght@400;500&family=Poppins:wght@300;400;600&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #bc13fe;
+            --bg: #050505;
+            --card-bg: #0f0f12;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .light-mode {
+            --bg: #f5f6fa; --card-bg: #ffffff; --text: #1a1a1a;
+            --primary: #0984e3; --secondary: #6c5ce7; --glass: rgba(0, 0, 0, 0.05);
+        }
+
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; transition: 0.4s; overflow-x: hidden; }
+
+        /* --- MODERN NAVBAR & NAVİGASYON --- */
+        nav {
+            background: rgba(0,0,0,0.95); padding: 15px 5%; display: flex; justify-content: space-between;
+            align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--primary);
+            backdrop-filter: blur(10px);
+        }
+        .logo-box { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Syncopate'; font-weight: bold; color: white; box-shadow: 0 0 20px var(--primary); }
+        .logo-text { font-family: 'Syncopate'; font-size: 20px; color: var(--primary); letter-spacing: 2px; }
+
+        .nav-links { display: flex; gap: 10px; }
+        .nav-item { background: none; border: none; color: var(--text); cursor: pointer; font-family: 'Orbitron'; font-size: 11px; padding: 12px; transition: var(--transition); }
+        .nav-item:hover { color: var(--primary); transform: translateY(-2px); }
+
+        .dropdown { position: relative; }
+        .dropdown-content { display: none; position: absolute; background: var(--card-bg); min-width: 200px; border: 1px solid var(--primary); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1001; }
+        .dropdown:hover .dropdown-content { display: block; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-content a { color: var(--text); padding: 15px; text-decoration: none; display: block; font-size: 11px; font-family: 'Orbitron'; border-bottom: 1px solid var(--glass); }
+        .dropdown-content a:hover { background: var(--primary); color: #000; }
+
+        /* --- ÜRÜN İÇİNE GİRME (MODAL) --- */
+        #detail-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
+        .detail-modal { background: var(--card-bg); width: 95%; max-width: 1000px; max-height: 90vh; border-radius: 30px; border: 2px solid var(--primary); position: relative; overflow-y: auto; display: flex; flex-direction: row; flex-wrap: wrap; padding: 40px; gap: 30px; }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 40px; color: var(--primary); cursor: pointer; }
+        .detail-img { flex: 1; min-width: 350px; border-radius: 20px; border: 1px solid var(--primary); }
+        .detail-info { flex: 1; min-width: 350px; }
+
+        /* --- YAPAY ZEKA TERMINALİ --- */
+        .ai-terminal { max-width: 1000px; margin: 40px auto; background: #0a0a0c; border-radius: 20px; border: 1px solid var(--secondary); overflow: hidden; display: flex; flex-direction: column; height: 600px; box-shadow: 0 0 40px rgba(188, 19, 254, 0.2); }
+        #chat-flow { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background-image: radial-gradient(rgba(188, 19, 254, 0.05) 1px, transparent 1px); background-size: 20px 20px; }
+        .msg { max-width: 80%; padding: 18px; border-radius: 15px; font-size: 14px; line-height: 1.6; }
+        .user-m { align-self: flex-end; background: var(--secondary); color: white; border-bottom-right-radius: 2px; }
+        .ai-m { align-self: flex-start; background: #1a1a20; border: 1px solid #333; color: white; border-bottom-left-radius: 2px; }
+        .code-block { background: #000; color: #50fa7b; padding: 20px; border-radius: 10px; font-family: 'Fira Code', monospace; font-size: 13px; margin-top: 15px; border-left: 4px solid var(--primary); overflow-x: auto; }
+        .ai-input-wrapper { display: flex; padding: 20px; background: #121217; gap: 15px; border-top: 1px solid #222; }
+        .ai-input { flex: 1; background: #000; border: 1px solid var(--primary); border-radius: 12px; color: white; padding: 15px; font-family: 'Poppins'; outline: none; }
+
+        /* --- MARKET VE KARTLAR --- */
+        .container { padding: 40px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: var(--card-bg); border-radius: 25px; overflow: hidden; border: 1px solid var(--glass); transition: var(--transition); cursor: pointer; position: relative; }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 10px 40px rgba(0, 242, 255, 0.15); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card-body { padding: 20px; text-align: center; }
+        .badge { position: absolute; top: 15px; right: 15px; padding: 5px 15px; border-radius: 50px; font-size: 10px; font-family: 'Orbitron'; font-weight: bold; }
+        .badge-tam { background: var(--primary); color: #000; }
+        .badge-yari { background: var(--secondary); color: #fff; }
+
+        .page { display: none; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .btn-buy { width: 100%; padding: 18px; border: none; background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-buy:hover { letter-spacing: 2px; filter: brightness(1.2); }
+    </style>
+</head>
+<body id="master">
+
+<nav>
+    <div class="logo-box">
+        <div class="logo-icon">G</div>
+        <div class="logo-text">GLOBEL_SATIŞ</div>
+    </div>
+    <div class="nav-links">
+        <button class="nav-item" onclick="show('home')">ANASAYFA</button>
+        <button class="nav-item" onclick="show('ai-zone')" style="color: var(--primary);">🤖 SUPER-AI</button>
+        <div class="dropdown">
+            <button class="nav-item">OYUNLAR ▾</button>
+            <div class="dropdown-content">
+                <a href="#" onclick="filter('oyun', 'tam')">FULL VERSİYON</a>
+                <a href="#" onclick="filter('oyun', 'yari')">DENEME PAKETİ</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="nav-item">SİTELER ▾</button>
+            <div class="dropdown-content">
+                <a href="#" onclick="filter('site', 'tam')">PROFESYONEL SİTE</a>
+                <a href="#" onclick="filter('site', 'yari')">BAŞLANGIÇ SİTESİ</a>
+            </div>
+        </div>
+        <button class="nav-item" onclick="show('about')">HAKKIMIZDA</button>
+        <button class="nav-item" onclick="show('settings')">AYARLAR</button>
+    </div>
+</nav>
+
+<div id="detail-overlay">
+    <div class="detail-modal">
+        <span class="close-btn" onclick="closeD()">&times;</span>
+        <div id="modal-inject" style="display: contents;"></div>
+    </div>
+</div>
+
+<div id="home" class="page active container">
+    <div style="text-align: center; padding: 60px 0;">
+        <h1 style="font-family: 'Syncopate'; font-size: 3rem; margin: 0;">GLOBAL TECH ELITE</h1>
+        <p style="font-family: 'Orbitron'; color: var(--primary); letter-spacing: 5px;">WORLD'S NO.1 SOFTWARE ECOSYSTEM</p>
+    </div>
+    <div class="grid" id="hGrid"></div>
+</div>
+
+<div id="ai-zone" class="page">
+    <div class="ai-terminal">
+        <div style="background: var(--secondary); padding: 15px; text-align: center; font-family: 'Orbitron'; font-weight: bold;">GLOBEL GEN-AI ENGINE v2.0</div>
+        <div id="chat-flow">
+            <div class="msg ai-m">Selamlar efendim! Ben Globel AI. 2026 model işlemci gücümle size kod yazabilir, fiyat analizleri yapabilir veya marketimiz hakkında detay verebilirim. Ne istersiniz?</div>
+        </div>
+        <div class="ai-input-wrapper">
+            <input type="text" id="aiInput" class="ai-input" placeholder="Bana bir HTML kayıt formu kodu yaz...">
+            <button onclick="ask()" style="background: var(--primary); border: none; padding: 0 30px; border-radius: 12px; cursor: pointer; font-family: 'Orbitron';">GÖNDER</button>
+        </div>
+    </div>
+</div>
+
+<div id="market" class="page container">
+    <h2 id="mTitle" style="font-family: 'Orbitron'; color: var(--primary);">MARKET ARŞİVİ</h2>
+    <div class="grid" id="mGrid"></div>
+</div>
+
+<div id="about" class="page container">
+    <div style="max-width: 900px; margin: auto; background: var(--card-bg); padding: 60px; border-radius: 40px; border: 1px solid var(--primary); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: var(--primary); filter: blur(100px); opacity: 0.2;"></div>
+        <h1 style="font-family: 'Syncopate'; font-size: 2.5rem; margin-bottom: 30px; color: var(--primary);">DÜNYADA TEK</h1>
+        <div style="line-height: 1.8; font-size: 1.1rem; opacity: 0.9;">
+            <p><strong>Globel_satış</strong>, 2026 dijital devriminin merkez üssüdür. Biz sadece kod satmıyoruz; biz geleceğin altyapısını inşa ediyoruz. Yıllardır süregelen AR-GE çalışmalarımız sonucunda, abla-kardeş rekabetinden doğan bu dev platform, bugün 30 dilde dünya devlerine kafa tutmaktadır.</p>
+            <p>Yapay zeka entegreli sistemimiz, her müşteriye özel çözümler üretir. "Tam Oyun" ile sınırsız gücü, "Yarı Oyun" ile ekonomik hızı keşfedin. Burası başarının başladığı yerdir.</p>
+            <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 30px;">
+                <h3 style="font-family: 'Orbitron'; color: var(--secondary);">İLETİŞİM: 0542 775 54 54</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="settings" class="page container">
+    <div style="max-width: 600px; margin: auto; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--primary);">
+        <h2 style="font-family: 'Orbitron';">AYARLAR</h2>
+        <p>GÖRÜNÜM MODU</p>
+        <button class="btn-buy" onclick="document.getElementById('master').classList.toggle('light-mode')" style="border-radius: 10px;">AÇIK / KAPALI MOD</button>
+        <p style="margin-top: 30px;">DİL SEÇİMİ</p>
+        <select style="width: 100%; padding: 15px; background: #000; color: white; border: 1px solid var(--primary); border-radius: 10px;" onchange="alert('Dil Değiştirildi: ' + this.value)">
+            <option>Türkçe</option>
+            <option>English</option>
+            <option>中文 (Çince)</option>
+            <option>Русский</option>
+        </select>
+    </div>
+</div>
+
+<script>
+    const products = [];
+    const games = ["PUBG MOBILE", "GTA VI", "MINECRAFT", "VALORANT", "ROBLOX", "FIFA 26", "ELDEN RING", "CYBERPUNK"];
+    const sites = ["E-Ticaret Portalı", "Oyun Paneli", "Haber Yazılımı", "Kurumsal Script", "AI Chatbot Site"];
+
+    // 300 ÜRÜN ÜRET
+    for(let i=0; i<300; i++) {
+        let type = i % 2 === 0 ? 'oyun' : 'site';
+        let level = Math.random() > 0.5 ? 'tam' : 'yari';
+        let name = type === 'oyun' ? games[i % games.length] : sites[i % sites.length];
+        products.push({
+            id: i, name: name + " " + (i+1), type: type, level: level,
+            price: level === 'tam' ? "4.500 TL" : "900 TL",
+            img: `https://picsum.photos/600/400?sig=${i}`,
+            desc: "Bu ürün Globel_satış mühendisleri tarafından 2026 standartlarında kodlanmıştır. Yüksek performanslı çekirdek ve %100 güvenlik protokolü içerir."
+        });
+    }
+
+    function createCard(p) {
+        let b = p.level === 'tam' ? 'badge-tam' : 'badge-yari';
+        return `
+            <div class="card" onclick="openD(${p.id})">
+                <div class="badge ${b}">${p.level.toUpperCase()}</div>
+                <img src="${p.img}">
+                <div class="card-body">
+                    <h3 style="font-family:'Orbitron'; font-size:16px;">${p.name}</h3>
+                    <p style="color:var(--primary); font-weight:bold; font-size:22px;">${p.price}</p>
+                    <p style="font-size:10px; opacity:0.6;">DETAY İÇİN TIKLAYIN</p>
+                </div>
+            </div>`;
+    }
+
+    // İLKLENDİRME
+    const hGrid = document.getElementById('hGrid');
+    products.slice(0, 21).forEach(p => hGrid.innerHTML += createCard(p));
+
+    function openD(id) {
+        const p = products[id];
+        const overlay = document.getElementById('detail-overlay');
+        document.getElementById('modal-inject').innerHTML = `
+            <img class="detail-img" src="${p.img}">
+            <div class="detail-info">
+                <h1 style="font-family:'Syncopate'; color:var(--primary);">${p.name}</h1>
+                <div class="badge ${p.level === 'tam' ? 'badge-tam' : 'badge-yari'}" style="position:static;">${p.level.toUpperCase()} PAKET</div>
+                <p style="font-size:18px; line-height:1.8; margin-top:25px;">${p.desc}</p>
+                <div style="font-size:40px; font-weight:bold; margin:30px 0; color:var(--secondary);">${p.price}</div>
+                <button class="btn-buy" style="border-radius:15px;" onclick="alert('Satın alma başarılı!')">HEMEN SATIN AL</button>
+            </div>`;
+        overlay.style.display = 'flex';
+    }
+
+    function closeD() { document.getElementById('detail-overlay').style.display = 'none'; }
+
+    function filter(t, l) {
+        show('market');
+        document.getElementById('mTitle').innerText = t.toUpperCase() + " / " + l.toUpperCase();
+        const mGrid = document.getElementById('mGrid');
+        mGrid.innerHTML = '';
+        products.filter(p => p.type === t && p.level === l).forEach(p => mGrid.innerHTML += createCard(p));
+    }
+
+    function show(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    // AI MANTIĞI
+    function ask() {
+        const inp = document.getElementById('aiInput');
+        const flow = document.getElementById('chat-flow');
+        if(!inp.value) return;
+
+        flow.innerHTML += `<div class="msg user-m">${inp.value}</div>`;
+        let val = inp.value.toLowerCase();
+        inp.value = "";
+
+        setTimeout(() => {
+            let res = "";
+            if(val.includes("kod") || val.includes("yaz")) {
+                res = "Efendim, istediğiniz kodu hemen derliyorum:<div class='code-block'>&lt;!-- Globel AI Code --&gt;\n&lt;section class='globel-elite'&gt;\n  &lt;h2&gt;Başarıya Hoş Geldiniz&lt;/h2&gt;\n  &lt;p&gt;Bu kod sizin için özel üretildi.&lt;/p&gt;\n&lt;/section&gt;</div>";
+            } else if(val.includes("fiyat")) {
+                res = "Efendim, sitemizde Tam ürünler <strong>4.500 TL</strong>, Yarı ürünler ise <strong>900 TL</strong>'den işlem görmektedir.";
+            } else {
+                res = "Efendim, Globel AI olarak talebinizi aldım. Size her türlü yazılım ve fiyat desteğini sunabilirim. Başka bir emriniz var mı?";
+            }
+            flow.innerHTML += `<div class="msg ai-m">${res}</div>`;
+            flow.scrollTop = flow.scrollHeight;
+        }, 800);
+    }
+</script>
+</body>
+</html>
